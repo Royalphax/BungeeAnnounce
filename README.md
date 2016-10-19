@@ -1,6 +1,7 @@
 <h1>Bungee Announce</h1>
 
 <p>Bungee Announce is a pretty well made plugin for your Bungee Proxy server.</p>
+<p>⚠ Sources are not available right now ⚠</p>
 
 <h3>Features:</h3>
 <ul>
