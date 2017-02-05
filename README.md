@@ -11,3 +11,5 @@ At first, i've created this plugin for more emancipation than `/alert`. Indeed, 
 * Keep your players up to date with last news of your network.
 
 <i>Learn more about the plugin on the <a href="https://www.spigotmc.org/wiki/bungee-announce-wiki/">Spigot-Wiki Page</a>.</i>
+
+# ⚠ Source code isn't available right now ⚠
