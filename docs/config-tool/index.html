@@ -135,7 +135,7 @@ player-announcer:<span id="player-announcer-section-config"></span></pre>
             </div>
             <hr/>
             <h2>➃ Scheduler section</h2>
-            <p class="pull-right"><span class="glyphicon glyphicon-exclamation-sign"></span> Maximum: 100</p><hr/>
+            <p class="pull-right"><span class="glyphicon glyphicon-exclamation-sign"></span> Maximum: 80</p><hr/>
             <div id="scheduler-section-division">
             </div>
             <button type="button" class="btn btn-danger btn-sm pull-left" onclick="removeScheduledAnnouncement();">Remove</button>
@@ -143,7 +143,7 @@ player-announcer:<span id="player-announcer-section-config"></span></pre>
             <br/>
             <hr/>
             <h2>➄ Player Announcer section</h2>
-            <p class="pull-right"><span class="glyphicon glyphicon-exclamation-sign"></span> Maximum: 100</p><hr/>
+            <p class="pull-right"><span class="glyphicon glyphicon-exclamation-sign"></span> Maximum: 80</p><hr/>
             <div id="player-announcer-section-division">
             </div>
             <button type="button" class="btn btn-danger btn-sm pull-left" onclick="removePlayerAnnouncement();">Remove</button>
@@ -165,13 +165,14 @@ player-announcer:<span id="player-announcer-section-config"></span></pre>
             var schedulerTemplateHidden = "<div class='well' id='announcement-xxx' style='display:none;'><span class='badge pull-right'>yyy</span><div class='form-group'><label for='announcement-type-xxx'><u>Type</u> — <small>What is the announcement's type ? Select one.</small></label><div class='radio'><label><input type='radio' id='announcement-type-xxx-announce' name='announcement-type-xxx' onclick='displayTypeProperties(true, xxx, false);' checked><b>Announce</b> : The announcement will be a simple message displayed in chat.</label></div><div class='radio'><label><input type='radio' id='announcement-type-xxx-title' name='announcement-type-xxx' onclick='displayTypeProperties(true, xxx, true);'><b>Title</b> : The announcement will be a title displayed to players.</label></div><div class='radio'><label><input type='radio' id='announcement-type-xxx-subtitle' name='announcement-type-xxx' onclick='displayTypeProperties(true, xxx, true);'><b>Subtitle</b> : The announcement will be a subtitle displayed to players.</label></div><div class='radio'><label><input type='radio' id='announcement-type-xxx-action' name='announcement-type-xxx' onclick='displayTypeProperties(true, xxx, false);'><b>Action</b> : The announcement will be a simple message displayed in action bar.</label></div><div class='radio'><label><input type='radio' id='announcement-type-xxx-warn' name='announcement-type-xxx' onclick='displayTypeProperties(true, xxx, false);'><b>Warn</b> : The announcement will be a simple message displayed in chat.</label></div></div><div class='form-group' style='display:none;' id='announcement-type-properties-xxx'><label for='type-properties-xxx'><u>Title/Subtitle properties</u> — <small>You can edit the time a title/subtitle will fade in, stay and fade out. (time in seconds)</small></label><p>You just have to follow this syntax: <code>[fadeInTime],[stayTime],[fadeOutTime]</code>. Put 0,0,0 to ask for the default time.</p><input type='text' class='form-control' placeholder='2,5,3' id='type-properties-xxx'></div><div class='form-group'><label for='announcement-interval-delay-xxx'><u>Interval & delay</u> — <small>Put the interval and delay you want for your announcement. (in seconds)</small></label><p>You just have to follow this syntax: <code>[interval],[delay]</code>. If you've no idea what 'interval' and 'delay' means, have a look at this short tutorial: <a href='https://github.com/Roytreo28/BungeeAnnounce/wiki/Interval-&-Delay' target='_blank'>https://github.com/Roytreo28/BungeeAnnounce/.../</a></p><input type='text' class='form-control' placeholder='60,10' id='announcement-interval-delay-xxx'></div><div class='form-group'><label for='announcement-permission-xxx'><u>Permission</u> — <small>Is any permission needed to see this announcement ? If yes, write it down.</small></label><input type='text' class='form-control' placeholder='bungeecord.vip' id='announcement-permission-xxx'></div><div class='form-group'><label for='announcement-message-xxx'><u>Announcement</u> — <small>What's the message that you want to be broadcasted ? Write it down.</small></label><p>Don't forget to use color codes and placeholders.</p><input type='text' class='form-control' id='announcement-message-xxx'></div><div class='form-group'><label for='announcement-servers-xxx'><u>Servers</u> — <small>On which server(s) you want your announcement to be broadcasted ? Write their names.</small></label><p>You just have to follow this syntax: <code>[server1],[server2],[server3],[...]</code>. Put <code>all</code> if you want your announcement to be broadcasted through all your network.</p><input type='text-area' class='form-control' placeholder='Hub-1,Hub-3,Hub-5' id='announcement-servers-xxx'></div></div>";
             var playerTemplateHidden = "<div class='well' id='player-xxx' style='display:none;'><span class='badge pull-right'>yyy</span><div class='form-group'><label for='player-name-xxx'><u>Player name</u> — <small>What is the name of the player to broadcast the following announcement when he/she join the server.</small></label><input type='text' class='form-control' placeholder='Notch' id='player-name-xxx'></div><div class='form-group'><label for='player-type-xxx'><u>Type</u> — <small>What is the player announcement's type ? Select one.</small></label><div class='radio'><label><input type='radio' id='player-type-xxx-announce' name='player-type-xxx' onclick='displayTypeProperties(false, xxx, false);' checked><b>Announce</b> : The announcement will be a simple message displayed in chat.</label></div><div class='radio'><label><input type='radio' id='player-type-xxx-title' name='player-type-xxx' onclick='displayTypeProperties(false, xxx, true);'><b>Title</b> : The announcement will be a title displayed to players.</label></div><div class='radio'><label><input type='radio' id='player-type-xxx-subtitle' name='player-type-xxx' onclick='displayTypeProperties(false, xxx, true);'><b>Subtitle</b> : The announcement will be a subtitle displayed to players.</label></div><div class='radio'><label><input type='radio' id='player-type-xxx-action' name='player-type-xxx' onclick='displayTypeProperties(false, xxx, false);'><b>Action</b> : The announcement will be a simple message displayed in action bar.</label></div><div class='radio'><label><input type='radio' id='player-type-xxx-warn' name='player-type-xxx' onclick='displayTypeProperties(false, xxx, false);'><b>Warn</b> : The announcement will be a simple message displayed in chat.</label></div></div><div class='form-group' style='display:none;' id='player-player-type-properties-xxx'><label for='player-type-properties-xxx'><u>Title/Subtitle properties</u> — <small>You can edit the time a title/subtitle will fade in, stay and fade out. (time in seconds)</small></label><p>You just have to follow this syntax: <code>[fadeInTime],[stayTime],[fadeOutTime]</code>. Put 0,0,0 to ask for the default time.</p><input type='text' class='form-control' placeholder='2,5,3' id='player-type-properties-xxx'></div><div class='form-group'><label for='player-permission-xxx'><u>Permission</u> — <small>Do you want more than one player to have this announcement on join ? If yes, write down the permission which is needed to have the same announcement.</small></label><input type='text' class='form-control' placeholder='bungeecord.vip' id='player-permission-xxx'></div><div class='form-group'><label for='player-message-xxx'><u>Announcement</u> — <small>What's the message that you want to be broadcasted ? Write it down.</small></label><p>Don't forget to use color codes and placeholders.</p><input type='text' class='form-control' id='player-message-xxx'></div><div class='form-group'><label for='player-servers-xxx'><u>Servers</u> — <small>On which server(s) you want the announcement to be broadcasted ? Write their names.</small></label><p>You just have to follow this syntax: <code>[server1],[server2],[server3],[...]</code>. Put <code>all</code> if you want the announcement to be broadcasted through all your network.</p><input type='text-area' class='form-control' placeholder='Hub-1,Hub-3,Hub-5' id='player-servers-xxx'></div></div>";
             var announceTypes = ["title", "subtitle", "action", "warn"];
+            var schedulerAndPlayerAnnouncementLimit = 79;//Modify this value if you want to bypass the restriction (It will cost a lot of RAM)
             var schedulerAnnouncerCount = 0;
             var playerAnnouncerCount = 0;
             init();
             
             function init()
             {
-                for (var i = 0; i < 80; i++)
+                for (var i = 0; i < schedulerAndPlayerAnnouncementLimit; i++)
                 {
                     addScheduledAnnouncement(true);
                     addPlayerAnnouncement(true);
@@ -181,8 +182,8 @@ player-announcer:<span id="player-announcer-section-config"></span></pre>
             }
             
             function addScheduledAnnouncement(hidden) {
-                if (schedulerAnnouncerCount == 80) {
-                    alert("You can't have more than 80 scheduled announcements.");
+                if (schedulerAnnouncerCount == schedulerAndPlayerAnnouncementLimit) {
+                    alert("You can't have more than "schedulerAndPlayerAnnouncementLimit+1" scheduled announcements.");
                     return;
                 }
                 var divTest = document.getElementById("announcement-" + (schedulerAnnouncerCount));
@@ -213,8 +214,8 @@ player-announcer:<span id="player-announcer-section-config"></span></pre>
             }
             
             function addPlayerAnnouncement(hidden) {
-            	if (playerAnnouncerCount == 80) {
-                    alert("You can't have more than 80 automatic player announcements.");
+            	if (playerAnnouncerCount == schedulerAndPlayerAnnouncementLimit) {
+                    alert("You can't have more than "+schedulerAndPlayerAnnouncementLimit+1+" automatic player announcements.");
                     return;
                 }
                 var divTest = document.getElementById("player-" + (playerAnnouncerCount));
