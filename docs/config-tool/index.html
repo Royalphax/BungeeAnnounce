@@ -183,7 +183,7 @@ player-announcer:<span id="player-announcer-section-config"></span></pre>
             
             function addScheduledAnnouncement(hidden) {
                 if (schedulerAnnouncerCount == schedulerAndPlayerAnnouncementLimit) {
-                    alert("You can't have more than "schedulerAndPlayerAnnouncementLimit+1" scheduled announcements.");
+                    alert("You can't have more than "+schedulerAndPlayerAnnouncementLimit+1+" scheduled announcements.");
                     return;
                 }
                 var divTest = document.getElementById("announcement-" + (schedulerAnnouncerCount));
