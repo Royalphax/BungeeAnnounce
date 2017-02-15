@@ -171,7 +171,7 @@ player-announcer:<span id="player-announcer-section-config"></span></pre>
             
             function init()
             {
-                for (var i = 0; i < 100; i++)
+                for (var i = 0; i < 80; i++)
                 {
                     addScheduledAnnouncement(true);
                     addPlayerAnnouncement(true);
@@ -181,8 +181,8 @@ player-announcer:<span id="player-announcer-section-config"></span></pre>
             }
             
             function addScheduledAnnouncement(hidden) {
-                if (schedulerAnnouncerCount == 100) {
-                    alert("You can't have more than 100 scheduled announcements.");
+                if (schedulerAnnouncerCount == 80) {
+                    alert("You can't have more than 80 scheduled announcements.");
                     return;
                 }
                 var divTest = document.getElementById("announcement-" + (schedulerAnnouncerCount));
@@ -213,8 +213,8 @@ player-announcer:<span id="player-announcer-section-config"></span></pre>
             }
             
             function addPlayerAnnouncement(hidden) {
-            	if (playerAnnouncerCount == 100) {
-                    alert("You can't have more than 100 automatic player announcements.");
+            	if (playerAnnouncerCount == 80) {
+                    alert("You can't have more than 80 automatic player announcements.");
                     return;
                 }
                 var divTest = document.getElementById("player-" + (playerAnnouncerCount));
@@ -395,6 +395,7 @@ player-announcer:<span id="player-announcer-section-config"></span></pre>
             }
             
             function selectText(containerid) {
+                document.getElementById("status").innerHTML = "";
                 if (document.selection) {
                     var range = document.body.createTextRange();
                     range.moveToElementText(document.getElementById(containerid));
