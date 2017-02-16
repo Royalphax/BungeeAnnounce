@@ -1,0 +1,22 @@
+main: fr.asynchronous.bungeeannounce.BungeeAnnouncePlugin
+name: BungeeAnnounce
+version: 4.3
+author: Asynchronous
+commands:
+  announce:
+    description: Send an announcement through all your network.
+    permission: bungeecord.command.announce
+  colorcode:
+    description: Show a list of all color/format codes.
+  bwarn:
+    description: Send a warning through all your network.
+    permission: bungeecord.command.warn
+  sendsubtitle:
+    description: Send a subtitle through all your network
+    permission: bungeecord.command.sendsubtitle
+  sendtitle:
+    description: Send a title through all your network
+    permission: bungeecord.command.sendtitle
+  sendaction:
+    description: Send an action message through all your network
+    permission: bungeecord.command.sendaction
