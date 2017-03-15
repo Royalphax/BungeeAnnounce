@@ -1,4 +1,4 @@
-main: fr.asynchronous.bungeeannounce.BungeeAnnouncePlugin
+main: fr.roytreo.bungeeannounce.BungeeAnnouncePlugin
 name: BungeeAnnounce
 version: 4.4
 author: Asynchronous
