@@ -1,4 +1,4 @@
-package fr.asynchronous.bungeeannounce.command;
+package fr.roytreo.bungeeannounce.command;
 
 import net.md_5.bungee.api.CommandSender;
 import net.md_5.bungee.api.chat.TextComponent;

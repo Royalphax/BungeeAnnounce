@@ -1,9 +1,9 @@
-package fr.asynchronous.bungeeannounce.handler;
+package fr.roytreo.bungeeannounce.handler;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import fr.asynchronous.bungeeannounce.BungeeAnnouncePlugin;
+import fr.roytreo.bungeeannounce.BungeeAnnouncePlugin;
 import net.md_5.bungee.api.config.ServerInfo;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
 

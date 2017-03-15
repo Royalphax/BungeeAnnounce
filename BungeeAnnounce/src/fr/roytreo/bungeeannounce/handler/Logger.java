@@ -1,11 +1,11 @@
-package fr.asynchronous.bungeeannounce.handler;
+package fr.roytreo.bungeeannounce.handler;
 
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 
-import fr.asynchronous.bungeeannounce.BungeeAnnouncePlugin;
+import fr.roytreo.bungeeannounce.BungeeAnnouncePlugin;
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.CommandSender;
 

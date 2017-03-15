@@ -1,6 +1,6 @@
-package fr.asynchronous.bungeeannounce.command;
+package fr.roytreo.bungeeannounce.command;
 
-import fr.asynchronous.bungeeannounce.BungeeAnnouncePlugin;
+import fr.roytreo.bungeeannounce.BungeeAnnouncePlugin;
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.CommandSender;
 import net.md_5.bungee.api.ProxyServer;

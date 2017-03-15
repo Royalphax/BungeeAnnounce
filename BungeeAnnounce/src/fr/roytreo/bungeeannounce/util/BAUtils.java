@@ -1,4 +1,4 @@
-package fr.asynchronous.bungeeannounce.util;
+package fr.roytreo.bungeeannounce.util;
 
 import java.io.BufferedWriter;
 import java.io.File;
@@ -10,9 +10,9 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 
-import fr.asynchronous.bungeeannounce.BungeeAnnouncePlugin;
-import fr.asynchronous.bungeeannounce.handler.AnnounceType;
-import fr.asynchronous.bungeeannounce.handler.Executor;
+import fr.roytreo.bungeeannounce.BungeeAnnouncePlugin;
+import fr.roytreo.bungeeannounce.handler.AnnounceType;
+import fr.roytreo.bungeeannounce.handler.Executor;
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.CommandSender;
 import net.md_5.bungee.api.chat.TextComponent;

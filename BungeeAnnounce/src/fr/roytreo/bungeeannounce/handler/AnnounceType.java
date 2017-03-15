@@ -1,4 +1,4 @@
-package fr.asynchronous.bungeeannounce.handler;
+package fr.roytreo.bungeeannounce.handler;
 
 /**
  * @author Roytreo28

@@ -1,10 +1,10 @@
-package fr.asynchronous.bungeeannounce.task;
+package fr.roytreo.bungeeannounce.task;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import fr.asynchronous.bungeeannounce.BungeeAnnouncePlugin;
-import fr.asynchronous.bungeeannounce.handler.AnnounceType;
+import fr.roytreo.bungeeannounce.BungeeAnnouncePlugin;
+import fr.roytreo.bungeeannounce.handler.AnnounceType;
 import net.md_5.bungee.api.config.ServerInfo;
 
 /**

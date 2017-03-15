@@ -1,4 +1,4 @@
-package fr.asynchronous.bungeeannounce.handler;
+package fr.roytreo.bungeeannounce.handler;
 
 import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.chat.ClickEvent.Action;

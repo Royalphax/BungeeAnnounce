@@ -1,4 +1,4 @@
-package fr.asynchronous.core.handler;
+package fr.roytreo.bungeeannounce.handler;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
