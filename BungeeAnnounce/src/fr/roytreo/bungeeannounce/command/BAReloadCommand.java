@@ -24,12 +24,12 @@ public class BAReloadCommand extends Command {
 	public void execute(CommandSender sender, String[] args) {
 		reloadAnnouncement("§7[" + sender.getName() + "]: §aReloading BungeeAnnounce plugin ...", sender);
 		int tasks = plugin.getProxy().getScheduler().cancel(plugin);
-		sender.sendMessage(new TextComponent("§8> §c" + tasks + " task" + (tasks > 1 ? "s" : "") +" were cancelled."));
+		sender.sendMessage(new TextComponent(ChatColor.DARK_GRAY + "> " + ChatColor.RED + tasks + " task" + (tasks > 1 ? "s" : "") +" were cancelled."));
 		this.plugin.messageTask.clear();
 		PlayerAnnouncer.playerAnnouncers.clear();
-		sender.sendMessage(new TextComponent("§8> §eLoading BungeeAnnounce ..."));
+		sender.sendMessage(new TextComponent(ChatColor.DARK_GRAY + "> " + ChatColor.YELLOW + "Loading BungeeAnnounce ..."));
 		this.plugin.load();
-		sender.sendMessage(new TextComponent("§8> §aBungeeAnnounce plugin is now load."));
+		sender.sendMessage(new TextComponent(ChatColor.DARK_GRAY + "> " + ChatColor.GREEN + "BungeeAnnounce plugin is now load."));
 	}
 
 	public void reloadAnnouncement(String announcement, CommandSender sender) {
