@@ -17,7 +17,7 @@ public class BAReloadCommand extends Command {
 	private BungeeAnnouncePlugin plugin;
 
 	public BAReloadCommand(BungeeAnnouncePlugin plugin) {
-		super("ba:reload", "bungeecord.command.reload", new String[] { "bungeeannounce:reload" });
+		super("ba:reload", "bungeecord.command.reload", "bungee:reload");
 		this.plugin = plugin;
 	}
 
@@ -25,7 +25,7 @@ public class BAReloadCommand extends Command {
 		reloadAnnouncement("§7[" + sender.getName() + "]: §aReloading BungeeAnnounce plugin ...", sender);
 		int tasks = plugin.getProxy().getScheduler().cancel(plugin);
 		sender.sendMessage(new TextComponent(ChatColor.DARK_GRAY + "> " + ChatColor.RED + tasks + " task" + (tasks > 1 ? "s" : "") +" were cancelled."));
-		this.plugin.messageTask.clear();
+		this.plugin.getScheduledAnnouncement().clear();
 		PlayerAnnouncer.playerAnnouncers.clear();
 		sender.sendMessage(new TextComponent(ChatColor.DARK_GRAY + "> " + ChatColor.YELLOW + "Loading BungeeAnnounce ..."));
 		this.plugin.load();
@@ -35,6 +35,6 @@ public class BAReloadCommand extends Command {
 	public void reloadAnnouncement(String announcement, CommandSender sender) {
 		this.plugin.send(AnnounceType.ANNOUNCEMENT, sender instanceof ProxiedPlayer ? (ProxiedPlayer) sender : null, announcement, null, true, "");
 		this.plugin.getLogger().info(ChatColor.stripColor(announcement));
-		this.plugin.logSystem.announce(AnnounceType.ANNOUNCEMENT, sender, announcement);
+		this.plugin.getLoggerSystem().announce(AnnounceType.ANNOUNCEMENT, sender, announcement);
 	}
 }

@@ -15,7 +15,7 @@ public class SendSubtitleCommand extends Command {
 	private BungeeAnnouncePlugin plugin;
 
 	public SendSubtitleCommand(BungeeAnnouncePlugin plugin) {
-		super("sendsubtitle", "bungeecord.command.sendsubtitle", new String[] { "bungee:sendsubtitle" });
+		super("sendsubtitle", "bungeecord.command.sendsubtitle", "bungee:sendsubtitle");
 		this.plugin = plugin;
 	}
 
@@ -38,7 +38,7 @@ public class SendSubtitleCommand extends Command {
 		for (int i = 3; i < args.length; i++) {
 			subtitleBuilder.append(args[i]).append(" ");
 		}
-		this.plugin.logSystem.announce(AnnounceType.SUBTITLE, sender, subtitleBuilder.toString().trim());
+		this.plugin.getLoggerSystem().announce(AnnounceType.SUBTITLE, sender, subtitleBuilder.toString().trim());
 		this.plugin.send(AnnounceType.SUBTITLE, sender instanceof ProxiedPlayer ? (ProxiedPlayer) sender : null, subtitleBuilder.toString().trim(), null, true, "", fadeIn, stay, fadeOut);
 	}
 }

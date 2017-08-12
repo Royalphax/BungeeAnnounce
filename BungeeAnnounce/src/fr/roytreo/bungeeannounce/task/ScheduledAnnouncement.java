@@ -2,6 +2,7 @@ package fr.roytreo.bungeeannounce.task;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import fr.roytreo.bungeeannounce.BungeeAnnouncePlugin;
 import fr.roytreo.bungeeannounce.handler.AnnounceType;
@@ -10,7 +11,7 @@ import net.md_5.bungee.api.config.ServerInfo;
 /**
  * @author Roytreo28
  */
-public class SchedulerTask implements Runnable {
+public class ScheduledAnnouncement implements Runnable {
 
 	private BungeeAnnouncePlugin plugin;
 	private AnnounceType announceType;
@@ -20,7 +21,7 @@ public class SchedulerTask implements Runnable {
 	private Integer[] optionalTitleArgs;
 	private Boolean allServers;
 
-	public SchedulerTask(BungeeAnnouncePlugin plugin, String taskName, AnnounceType announceType, String message, List<String> servers, String permission, Integer... optionalTitleArgs) {
+	public ScheduledAnnouncement(BungeeAnnouncePlugin plugin, AnnounceType announceType, String message, List<String> servers, String permission, int delay, int interval, Integer... optionalTitleArgs) {
 		this.plugin = plugin;
 		this.announceType = announceType;
 		this.message = message;
@@ -28,20 +29,21 @@ public class SchedulerTask implements Runnable {
 		this.permission = permission;
 		this.optionalTitleArgs = optionalTitleArgs;
 		this.allServers = false;
-		for (String entry : servers) {
-			if (entry.equals("all"))
-				break;
-			ServerInfo info = plugin.getProxy().getServerInfo(entry);
-			if (info != null) {
-				this.servers.add(info);
-			} else {
-				plugin.getLogger().warning("Server \"" + entry + "\" for message \"" + taskName + "\" doesn't exist!");
-				plugin.messageTask.get(taskName).cancel();
-				break;
+		
+		if (servers.isEmpty() || servers.contains("all")) {
+			this.allServers = true;
+		} else {
+			for (String entry : servers) {
+				ServerInfo info = plugin.getProxy().getServerInfo(entry);
+				if (info != null) {
+					this.servers.add(info);
+				} else {
+					plugin.getLogger().warning("Server \"" + entry + "\" for message \"" + message + "\" doesn't exist!");
+					return;
+				}
 			}
 		}
-		if (servers.isEmpty() || servers.contains("all"))
-			this.allServers = true;
+		plugin.getProxy().getScheduler().schedule(plugin, this, delay, interval, TimeUnit.SECONDS);
 	}
 
 	@Override

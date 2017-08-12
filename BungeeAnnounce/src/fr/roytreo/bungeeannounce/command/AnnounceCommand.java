@@ -15,7 +15,7 @@ public class AnnounceCommand extends Command {
 	private BungeeAnnouncePlugin plugin;
 
 	public AnnounceCommand(BungeeAnnouncePlugin plugin) {
-		super("announce", "bungeecord.command.announce", new String[] { "bungee:announce" });
+		super("announce", "bungeecord.command.announce", "bungee:announce");
 		this.plugin = plugin;
 	}
 
@@ -28,7 +28,7 @@ public class AnnounceCommand extends Command {
 		for (int i = 0; i < args.length; i++) {
 			announceBuilder.append(args[i]).append(" ");
 		}
-		this.plugin.logSystem.announce(AnnounceType.ANNOUNCEMENT, sender, announceBuilder.toString().trim());
+		this.plugin.getLoggerSystem().announce(AnnounceType.ANNOUNCEMENT, sender, announceBuilder.toString().trim());
 		this.plugin.send(AnnounceType.ANNOUNCEMENT, sender instanceof ProxiedPlayer ? (ProxiedPlayer) sender : null, announceBuilder.toString().trim(), null, true, "");
 	}
 }

@@ -1,14 +1,6 @@
 package fr.roytreo.bungeeannounce.util;
 
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.io.StringWriter;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 
 import fr.roytreo.bungeeannounce.BungeeAnnouncePlugin;
 import fr.roytreo.bungeeannounce.handler.AnnounceType;
@@ -226,32 +218,5 @@ public class BAUtils {
 			}
 		}
 		return emptyOutput;
-	}
-	
-	public static void registerException(BungeeAnnouncePlugin instance, Exception ex)
-	{
-		BufferedWriter writer = null;
-        try {
-            String timeLog = new SimpleDateFormat("yyyy-MM-dd_HH-mm-ss").format(Calendar.getInstance().getTime());
-            File folder = new File(instance.getDataFolder(), "reports/");
-            if (!folder.exists()) folder.mkdirs();
-            File logFile = new File(instance.getDataFolder(), "reports/" + timeLog + ".txt");
-
-            StringWriter errors = new StringWriter();
-            ex.printStackTrace(new PrintWriter(errors));
-            
-            try {
-            	writer = new BufferedWriter(new FileWriter(logFile, true));
-				writer.write(errors.toString());
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-        } finally {
-            try {
-				writer.close();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-        }
 	}
 }

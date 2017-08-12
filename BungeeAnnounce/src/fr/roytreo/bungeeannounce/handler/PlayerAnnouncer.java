@@ -70,7 +70,7 @@ public class PlayerAnnouncer {
 		return this.optionalTitleArgs;
 	}
 	
-	public static List<PlayerAnnouncer> getPlayerAnnouncer(ProxiedPlayer player)
+	public static List<PlayerAnnouncer> getAnnouncementList(ProxiedPlayer player)
 	{
 		List<PlayerAnnouncer> output = new ArrayList<>();
 		for (PlayerAnnouncer playerAnnouncer : playerAnnouncers)
@@ -79,9 +79,9 @@ public class PlayerAnnouncer {
 		return output;
 	}
 	
-	public static boolean existPlayerAnnouncer(ProxiedPlayer player)
+	public static boolean hasAnnouncement(ProxiedPlayer player)
 	{
-		if (getPlayerAnnouncer(player).isEmpty())
+		if (getAnnouncementList(player).isEmpty())
 			return false;
 		return true;
 	}

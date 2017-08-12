@@ -6,6 +6,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 
 import fr.roytreo.bungeeannounce.BungeeAnnouncePlugin;
+import fr.roytreo.bungeeannounce.manager.ConfigurationManager;
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.CommandSender;
 
@@ -14,12 +15,12 @@ import net.md_5.bungee.api.CommandSender;
  */
 public class Logger {
 
-	public File logFile;
-	public Boolean registerLogs;
+	private File logFile;
+	private Boolean registerLogs;
 	
 	@SuppressWarnings("deprecation")
 	public Logger(BungeeAnnouncePlugin instance) {
-		this.registerLogs = instance.register_logs;
+		this.registerLogs = ConfigurationManager.Field.REGISTER_LOGS.getBoolean();
 		if (this.registerLogs)
 		{
 			new File(instance.getDataFolder(), "logs/").mkdirs();
