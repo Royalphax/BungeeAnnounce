@@ -37,6 +37,9 @@ import net.md_5.bungee.event.EventHandler;
  */
 public class BungeeAnnouncePlugin extends Plugin implements Listener {
 	
+	public static final String user_id = "%%__USER__%%";
+	public static final String download_id = "%%__NONCE__%%";
+	
 	private static BungeeAnnouncePlugin instance;
 	
 	private Boolean update;
