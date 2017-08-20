@@ -1,5 +1,6 @@
-fr.asynchronous.bungeeannounce
-fr.asynchronous.bungeeannounce.command
-fr.asynchronous.bungeeannounce.handler
-fr.asynchronous.bungeeannounce.task
-fr.asynchronous.bungeeannounce.util
+fr.roytreo.bungeeannounce
+fr.roytreo.bungeeannounce.command
+fr.roytreo.bungeeannounce.handler
+fr.roytreo.bungeeannounce.manager
+fr.roytreo.bungeeannounce.task
+fr.roytreo.bungeeannounce.util
