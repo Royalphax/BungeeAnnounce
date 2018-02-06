@@ -106,6 +106,7 @@ public class BungeeAnnouncePlugin extends Plugin implements Listener {
 			for (ProxiedPlayer player : getProxy().getPlayers()) {
 				if (!permission.equals("") && !player.hasPermission(permission)) continue;
 				ServerInfo server = player.getServer().getInfo();
+				if (server == null) { return; }
 				message = BAUtils.translatePlaceholders(message, sender, player, server, this);
 				Title title = getProxy().createTitle();
 				if (optionalTitleArgs != null && optionalTitleArgs.length >= 3) {
@@ -143,6 +144,7 @@ public class BungeeAnnouncePlugin extends Plugin implements Listener {
 			for (ProxiedPlayer player : getProxy().getPlayers()) {
 				if (!permission.equals("") && !player.hasPermission(permission)) continue;
 				ServerInfo server = player.getServer().getInfo();
+				if (server == null) { return; }
 				message = BAUtils.translatePlaceholders(message, sender, player, server, this);
 				Title title = getProxy().createTitle();
 				if (optionalTitleArgs != null && optionalTitleArgs.length >= 3) {
@@ -182,6 +184,7 @@ public class BungeeAnnouncePlugin extends Plugin implements Listener {
 			for (ProxiedPlayer player : getProxy().getPlayers()) {
 				if (!permission.equals("") && !player.hasPermission(permission)) continue;
 				ServerInfo server = player.getServer().getInfo();
+				if (server == null) { return; }
 				message = BAUtils.translatePlaceholders(message, sender, player, server, this);
 				player.sendMessage(ChatMessageType.ACTION_BAR, new TextComponent((prefix ? ConfigurationManager.Field.ACTION_PREFIX.getString() : "") + ChatColor.translateAlternateColorCodes('&', message)));
 			}
@@ -201,6 +204,7 @@ public class BungeeAnnouncePlugin extends Plugin implements Listener {
 			for (ProxiedPlayer player : getProxy().getPlayers()) {
 				if (!permission.equals("") && !player.hasPermission(permission)) continue;
 				ServerInfo server = player.getServer().getInfo();
+				if (server == null) { return; }
 				message = BAUtils.translatePlaceholders(message, sender, player, server, this);
 				player.sendMessage(BAUtils.parse((prefix ? ConfigurationManager.Field.WARN_PREFIX.getString() : "") + message));
 			}
@@ -220,6 +224,7 @@ public class BungeeAnnouncePlugin extends Plugin implements Listener {
 			for (ProxiedPlayer player : getProxy().getPlayers()) {
 				if (!permission.equals("") && !player.hasPermission(permission)) continue;
 				ServerInfo server = player.getServer().getInfo();
+				if (server == null) { return; }
 				message = BAUtils.translatePlaceholders(message, sender, player, server, this);
 				player.sendMessage(BAUtils.parse((prefix ? ConfigurationManager.Field.ANNOUNCE_PREFIX.getString() : "") + message));
 			}
