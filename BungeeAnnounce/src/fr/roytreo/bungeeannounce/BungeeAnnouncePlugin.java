@@ -117,6 +117,10 @@ public class BungeeAnnouncePlugin extends Plugin implements Listener {
 		return this.scheduledAnnouncement;
 	}
 	
+	public ConfigurationManager getConfigManager() {
+		return this.configManager;
+	}
+	
 	public static ProxyServer getProxyServer() {
 		return instance.getProxy();
 	}

@@ -66,8 +66,8 @@ public class ConfigurationManager {
 				String message = schedulerSection.getString(taskName + ".message", "<No message was set for this announcement>");
 				List<String> servers = schedulerSection.getStringList(taskName + ".servers");
 				String permission = schedulerSection.getString(taskName + ".permission", "");
-				int delay = schedulerSection.getInt(taskName + ".delay", 2);
-				int interval = schedulerSection.getInt(taskName + ".interval", 0);
+				int delay = schedulerSection.getInt(taskName + ".delay", 5);
+				int interval = schedulerSection.getInt(taskName + ".interval", 10);
 				Integer[] optionalTitleArgs = BAUtils.getOptionalTitleArgsFromConfig(announcement, type);
 				
 				output.add(new ScheduledAnnouncement(this.plugin, announcement, message, servers, permission, delay, interval, optionalTitleArgs));
@@ -180,5 +180,9 @@ public class ConfigurationManager {
 				}
 			}
 		}
+	}
+	
+	public Configuration getConfig() {
+		return this.config;
 	}
 }
