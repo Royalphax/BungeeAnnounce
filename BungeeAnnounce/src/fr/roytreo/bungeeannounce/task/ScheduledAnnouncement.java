@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import fr.roytreo.bungeeannounce.BungeeAnnouncePlugin;
-import fr.roytreo.bungeeannounce.handler.AnnounceType;
+import fr.roytreo.bungeeannounce.manager.AnnouncementManager;
 import net.md_5.bungee.api.config.ServerInfo;
 
 /**
@@ -14,16 +14,16 @@ import net.md_5.bungee.api.config.ServerInfo;
 public class ScheduledAnnouncement implements Runnable {
 
 	private BungeeAnnouncePlugin plugin;
-	private AnnounceType announceType;
+	private AnnouncementManager announcement;
 	private String message;
 	private List<ServerInfo> servers;
 	private String permission;
 	private Integer[] optionalTitleArgs;
 	private Boolean allServers;
 
-	public ScheduledAnnouncement(BungeeAnnouncePlugin plugin, AnnounceType announceType, String message, List<String> servers, String permission, int delay, int interval, Integer... optionalTitleArgs) {
+	public ScheduledAnnouncement(BungeeAnnouncePlugin plugin, AnnouncementManager announcement, String message, List<String> servers, String permission, int delay, int interval, Integer... optionalTitleArgs) {
 		this.plugin = plugin;
-		this.announceType = announceType;
+		this.announcement = announcement;
 		this.message = message;
 		this.servers = new ArrayList<>();
 		this.permission = permission;
@@ -48,6 +48,6 @@ public class ScheduledAnnouncement implements Runnable {
 
 	@Override
 	public void run() {
-		this.plugin.send(this.announceType, this.plugin.getProxy().getConsole(), this.message, (this.allServers ? null : this.servers), false, this.permission, this.optionalTitleArgs);
+		AnnouncementManager.sendToServer(this.announcement, this.plugin.getProxy().getConsole(), this.message, (this.allServers ? null : this.servers), false, this.permission, this.optionalTitleArgs);
 	}
 }

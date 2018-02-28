@@ -3,8 +3,8 @@ package fr.roytreo.bungeeannounce.util;
 import java.util.ArrayList;
 
 import fr.roytreo.bungeeannounce.BungeeAnnouncePlugin;
-import fr.roytreo.bungeeannounce.handler.AnnounceType;
 import fr.roytreo.bungeeannounce.handler.Executor;
+import fr.roytreo.bungeeannounce.manager.AnnouncementManager;
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.CommandSender;
 import net.md_5.bungee.api.chat.TextComponent;
@@ -149,7 +149,7 @@ public class BAUtils {
 		return split.size();
 	}
 	
-	public static String translatePlaceholders(String input, CommandSender sender, ProxiedPlayer receiver, ServerInfo server, BungeeAnnouncePlugin instance)
+	public static String translatePlaceholders(String input, CommandSender sender, ProxiedPlayer receiver, ServerInfo server)
 	{
 		String output = input;
 		if (receiver != null) 
@@ -193,14 +193,14 @@ public class BAUtils {
 			output = output.replaceAll("%SERVER_MOTD%", "null");
 			output = output.replaceAll("%SERVER_ONLINE_PLAYERS%", "?");
 		}
-		output = output.replaceAll("%BUNGEE_ONLINE_PLAYERS%", instance.getProxy().getOnlineCount() + "");
+		output = output.replaceAll("%BUNGEE_ONLINE_PLAYERS%", BungeeAnnouncePlugin.getProxyServer().getOnlineCount() + "");
 		return output;
 	}
 	
-	public static Integer[] getOptionalTitleArgsFromConfig(AnnounceType announceType, String rawType)
+	public static Integer[] getOptionalTitleArgsFromConfig(AnnouncementManager announcement, String rawType)
 	{
 		Integer[] emptyOutput = {};
-		if (announceType == AnnounceType.TITLE || announceType == AnnounceType.SUBTITLE)
+		if (announcement == AnnouncementManager.TITLE || announcement == AnnouncementManager.SUBTITLE)
 		{
 			String[] splittedRawType = rawType.split("_");
 			if (splittedRawType.length >= 4)

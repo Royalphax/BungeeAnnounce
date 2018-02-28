@@ -10,7 +10,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import fr.roytreo.bungeeannounce.BungeeAnnouncePlugin;
-import fr.roytreo.bungeeannounce.handler.AnnounceType;
 import fr.roytreo.bungeeannounce.handler.PlayerAnnouncer;
 import fr.roytreo.bungeeannounce.task.ScheduledAnnouncement;
 import fr.roytreo.bungeeannounce.util.BAUtils;
@@ -58,8 +57,8 @@ public class ConfigurationManager {
 			try {
 				String type = schedulerSection.getString(taskName + ".type", "");
 				
-				AnnounceType announceType = AnnounceType.getType(type);
-				if (announceType == null) {
+				AnnouncementManager announcement = AnnouncementManager.getAnnouncement(type);
+				if (announcement == null) {
 					getLogger().log(Level.WARNING, "Error when loading announcement \"%s\", the field 'type' wasn't recognized.", taskName);
 					continue;
 				}
@@ -69,9 +68,9 @@ public class ConfigurationManager {
 				String permission = schedulerSection.getString(taskName + ".permission", "");
 				int delay = schedulerSection.getInt(taskName + ".delay", 2);
 				int interval = schedulerSection.getInt(taskName + ".interval", 0);
-				Integer[] optionalTitleArgs = BAUtils.getOptionalTitleArgsFromConfig(announceType, type);
+				Integer[] optionalTitleArgs = BAUtils.getOptionalTitleArgsFromConfig(announcement, type);
 				
-				output.add(new ScheduledAnnouncement(this.plugin, announceType, message, servers, permission, delay, interval, optionalTitleArgs));
+				output.add(new ScheduledAnnouncement(this.plugin, announcement, message, servers, permission, delay, interval, optionalTitleArgs));
 				
 				i++;
 				
@@ -94,8 +93,8 @@ public class ConfigurationManager {
 			try {
 				String type = playerAnnouncerSection.getString(playerName + ".type", "");
 				
-				AnnounceType announceType = AnnounceType.getType(playerAnnouncerSection.getString(playerName + ".type"));
-				if (announceType == null) {
+				AnnouncementManager announcement = AnnouncementManager.getAnnouncement(playerAnnouncerSection.getString(playerName + ".type"));
+				if (announcement == null) {
 					getLogger().log(Level.WARNING, "Error when loading automatic player announcement \"%s\", the field 'type' wasn't recognized.", playerName);
 					continue;
 				}
@@ -103,9 +102,9 @@ public class ConfigurationManager {
 				String message = playerAnnouncerSection.getString(playerName + ".message", "<No message was set for this announcement>");
 				List<String> servers = playerAnnouncerSection.getStringList(playerName + ".servers");
 				String permission = playerAnnouncerSection.getString(playerName + ".permission", "");
-				Integer[] optionalTitleArgs = BAUtils.getOptionalTitleArgsFromConfig(announceType, type);
+				Integer[] optionalTitleArgs = BAUtils.getOptionalTitleArgsFromConfig(announcement, type);
 				
-				output.add(new PlayerAnnouncer(this.plugin, playerName, announceType, message, servers, permission, optionalTitleArgs));
+				output.add(new PlayerAnnouncer(this.plugin, playerName, announcement, message, servers, permission, optionalTitleArgs));
 				
 				i++;
 			} catch (Exception ex) {

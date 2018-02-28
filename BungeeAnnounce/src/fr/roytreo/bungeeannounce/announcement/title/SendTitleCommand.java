@@ -1,7 +1,6 @@
-package fr.roytreo.bungeeannounce.command;
+package fr.roytreo.bungeeannounce.announcement.title;
 
-import fr.roytreo.bungeeannounce.BungeeAnnouncePlugin;
-import fr.roytreo.bungeeannounce.handler.AnnounceType;
+import fr.roytreo.bungeeannounce.manager.AnnouncementManager;
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.CommandSender;
 import net.md_5.bungee.api.chat.TextComponent;
@@ -12,11 +11,9 @@ import net.md_5.bungee.api.plugin.Command;
  * @author Roytreo28
  */
 public class SendTitleCommand extends Command {
-	private BungeeAnnouncePlugin plugin;
 
-	public SendTitleCommand(BungeeAnnouncePlugin plugin) {
+	public SendTitleCommand() {
 		super("sendtitle", "bungeecord.command.sendtitle", "bungee:sendtitle");
-		this.plugin = plugin;
 	}
 
 	public void execute(CommandSender sender, String[] args) {
@@ -38,7 +35,6 @@ public class SendTitleCommand extends Command {
 		for (int i = 3; i < args.length; i++) {
 			titleBuilder.append(args[i]).append(" ");
 		}
-		this.plugin.getLoggerSystem().announce(AnnounceType.TITLE, sender, titleBuilder.toString().trim());
-		this.plugin.send(AnnounceType.TITLE, sender instanceof ProxiedPlayer ? (ProxiedPlayer) sender : null, titleBuilder.toString().trim(), null, true, "", fadeIn, stay, fadeOut);
+		AnnouncementManager.sendToServer(AnnouncementManager.TITLE, sender instanceof ProxiedPlayer ? (ProxiedPlayer) sender : null, titleBuilder.toString().trim(), null, true, "", fadeIn, stay, fadeOut);
 	}
 }

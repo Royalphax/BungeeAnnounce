@@ -15,12 +15,12 @@ import net.md_5.bungee.api.plugin.Command;
  */
 public class MsgCommand extends Command {
 
-	private String command;
+	private String[] commands;
 	private MsgManager msgManager;
 
-	public MsgCommand(BungeeAnnouncePlugin plugin, String command) {
-		super(command, "", "bungee:msg");
-		this.command = command;
+	public MsgCommand(BungeeAnnouncePlugin plugin, String... commands) {
+		super("bungee:msg", "", commands);
+		this.commands = commands;
 		this.msgManager = new MsgManager();
 		plugin.getProxy().getPluginManager().registerCommand(plugin, new ReplyCommand(plugin, this.msgManager));
 	}
@@ -29,7 +29,7 @@ public class MsgCommand extends Command {
 		if (sender instanceof ProxiedPlayer) {
 			ProxiedPlayer player = (ProxiedPlayer) sender;
 			if (args.length == 0) {
-				sender.sendMessage(new TextComponent(ChatColor.RED + "Usage: /" + this.command + " <player> <msg>"));
+				sender.sendMessage(new TextComponent(ChatColor.RED + "Usage: /" + this.commands[0] + " <player> <msg>"));
 				return;
 			}
 			String name = args[0];

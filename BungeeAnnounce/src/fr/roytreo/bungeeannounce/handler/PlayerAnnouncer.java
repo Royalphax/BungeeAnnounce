@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import fr.roytreo.bungeeannounce.BungeeAnnouncePlugin;
+import fr.roytreo.bungeeannounce.manager.AnnouncementManager;
 import net.md_5.bungee.api.config.ServerInfo;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
 
@@ -18,16 +19,16 @@ public class PlayerAnnouncer {
 		playerAnnouncers = new ArrayList<>();
 	}
 	
-	private AnnounceType announceType;
+	private AnnouncementManager announcement;
 	private String message;
 	private String playerName;
 	private String permission;
 	private List<ServerInfo> servers;
 	private Integer[] optionalTitleArgs;
 
-	public PlayerAnnouncer(BungeeAnnouncePlugin plugin, String playerName, AnnounceType announceType, String message, List<String> servers, String permission, Integer... optionalTitleArgs) {
+	public PlayerAnnouncer(BungeeAnnouncePlugin plugin, String playerName, AnnouncementManager announcement, String message, List<String> servers, String permission, Integer... optionalTitleArgs) {
 		this.playerName = playerName;
-		this.announceType = announceType;
+		this.announcement = announcement;
 		this.message = message;
 		this.servers = new ArrayList<>();
 		this.permission = permission;
@@ -50,8 +51,8 @@ public class PlayerAnnouncer {
 		return this.playerName;
 	}
 	
-	public AnnounceType getAnnounceType() {
-		return this.announceType;
+	public AnnouncementManager getAnnouncement() {
+		return this.announcement;
 	}
 	
 	public String getMessage() {

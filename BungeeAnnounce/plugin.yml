@@ -1,6 +1,6 @@
 main: fr.roytreo.bungeeannounce.BungeeAnnouncePlugin
 name: BungeeAnnounce
-version: 5.0
+version: 5.1
 author: Asynchronous
 commands:
   announce:

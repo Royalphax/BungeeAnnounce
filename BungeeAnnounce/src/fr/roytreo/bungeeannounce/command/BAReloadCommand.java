@@ -1,8 +1,8 @@
 package fr.roytreo.bungeeannounce.command;
 
 import fr.roytreo.bungeeannounce.BungeeAnnouncePlugin;
-import fr.roytreo.bungeeannounce.handler.AnnounceType;
 import fr.roytreo.bungeeannounce.handler.PlayerAnnouncer;
+import fr.roytreo.bungeeannounce.manager.AnnouncementManager;
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.CommandSender;
 import net.md_5.bungee.api.chat.TextComponent;
@@ -33,8 +33,7 @@ public class BAReloadCommand extends Command {
 	}
 
 	public void reloadAnnouncement(String announcement, CommandSender sender) {
-		this.plugin.send(AnnounceType.ANNOUNCEMENT, sender instanceof ProxiedPlayer ? (ProxiedPlayer) sender : null, announcement, null, true, "");
+		AnnouncementManager.sendToServer(AnnouncementManager.ANNOUNCE, sender instanceof ProxiedPlayer ? (ProxiedPlayer) sender : null, announcement, null, true, "");
 		this.plugin.getLogger().info(ChatColor.stripColor(announcement));
-		this.plugin.getLoggerSystem().announce(AnnounceType.ANNOUNCEMENT, sender, announcement);
 	}
 }

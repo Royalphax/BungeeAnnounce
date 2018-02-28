@@ -6,6 +6,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 
 import fr.roytreo.bungeeannounce.BungeeAnnouncePlugin;
+import fr.roytreo.bungeeannounce.manager.AnnouncementManager;
 import fr.roytreo.bungeeannounce.manager.ConfigurationManager;
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.CommandSender;
@@ -55,10 +56,10 @@ public class Logger {
         }
 	}
 	
-	public void announce(AnnounceType type, CommandSender sender, String message)
+	public void announce(AnnouncementManager announcement, CommandSender sender, String message)
 	{
-		if (this.registerLogs) {
-			String typeUsed = type.toString().toUpperCase();
+		if (this.registerLogs && sender != null) {
+			String typeUsed = announcement.toString().toUpperCase();
 			java.util.Date actual = new java.util.Date();
 			@SuppressWarnings("deprecation")
 			String write = "[" + actual.getHours() + ":" + actual.getMinutes() + ":" + actual.getSeconds() + "] [" + sender.getName() + "/" + typeUsed + "]: " + ChatColor.stripColor(message);
