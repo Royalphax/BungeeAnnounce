@@ -68,7 +68,7 @@ public class BungeeAnnouncePlugin extends Plugin implements Listener {
 		pM.registerCommand(this, new BAReloadCommand(this));
 		pM.registerCommand(this, new ColorcodeCommand());
 		if (ConfigurationManager.Field.ENABLE_PRIVATE_MESSAGING.getBoolean()) {
-			String cmmds = ConfigurationManager.Field.COMMAND_FOR_PRIVATE_MESSAGING.getString().replaceAll(" ,", "").replaceAll(", ", "");
+			String cmmds = ConfigurationManager.Field.COMMAND_FOR_PRIVATE_MESSAGING.getString().replaceAll(" ,", ",").replaceAll(", ", ",");
 			pM.registerCommand(this, new MsgCommand(this, cmmds.split(",")));
 		}
 		pM.registerListener(this, this);
