@@ -27,7 +27,7 @@ public class ForceBroadcastCommand extends Command {
 
 	public void execute(CommandSender sender, String[] args) {
 		if (args.length == 0) {
-			sender.sendMessage(new TextComponent(ChatColor.RED + "Usage: /forcebroadcast <announcement's name in config file>"));
+			sender.sendMessage(new TextComponent(ChatColor.RED + "Usage: /forcebroadcast <announcement>"));
 			return;
 		}
 		Configuration schedulerSection = this.plugin.getConfigManager().getConfig().getSection("scheduler");
@@ -37,7 +37,7 @@ public class ForceBroadcastCommand extends Command {
 			
 			AnnouncementManager announcement = AnnouncementManager.getAnnouncement(type);
 			if (announcement == null) {
-				sender.sendMessage(new TextComponent(ChatColor.RED + "Error when loading announcement \"" + taskName + "\", the field 'type' wasn't recognized."));
+				sender.sendMessage(new TextComponent(BAUtils.colorizz("&cError when loading announcement \"" + taskName + "\", the field 'type' wasn't recognized (It can also means that this announcement doesn't exist).")));
 				return;
 			}
 			
@@ -52,14 +52,14 @@ public class ForceBroadcastCommand extends Command {
 				if (info != null) {
 					serversInfo.add(info);
 				} else {
-					sender.sendMessage(new TextComponent(ChatColor.RED + "Server \"" + entry + "\" for announcement \"" + taskName + "\" doesn't exist ! Skipping it ..."));
+					sender.sendMessage(new TextComponent(BAUtils.colorizz("&eServer \"" + entry + "\" for announcement \"" + taskName + "\" doesn't exist ! Skipping it ...")));
 				}
 			}
 			
 			AnnouncementManager.sendToServer(announcement, sender, message, serversInfo, false, permission, optionalTitleArgs);
 			
 		} catch (Exception ex) {
-			sender.sendMessage(new TextComponent(ChatColor.RED + "An error occured ! There is no announcement named \"" + taskName + "\" in the config file."));
+			sender.sendMessage(new TextComponent(BAUtils.colorizz("&cAn error occured ! There is no announcement named \"" + taskName + "\" in the config file.")));
 		}
 	}
 }

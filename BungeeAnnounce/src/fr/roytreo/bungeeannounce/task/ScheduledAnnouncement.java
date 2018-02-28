@@ -43,12 +43,7 @@ public class ScheduledAnnouncement implements Runnable {
 				}
 			}
 		}
-		if (interval < 0) {
-			plugin.getLogger().info("The next announcement has a negative interval. So it was frozen. In other words, the only way to broadcast it is to use the command: /forceBroadcast <name of the announcement in config file>");
-			plugin.getLogger().info("|-> \"" + message + "\"");
-		} else {
-			plugin.getProxy().getScheduler().schedule(plugin, this, delay, interval, TimeUnit.SECONDS);
-		}
+		plugin.getProxy().getScheduler().schedule(plugin, this, delay, interval, TimeUnit.SECONDS);
 	}
 
 	@Override

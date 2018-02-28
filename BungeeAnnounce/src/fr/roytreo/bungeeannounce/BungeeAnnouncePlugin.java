@@ -1,11 +1,13 @@
 package fr.roytreo.bungeeannounce;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import fr.roytreo.bungeeannounce.command.BAReloadCommand;
 import fr.roytreo.bungeeannounce.command.ColorcodeCommand;
+import fr.roytreo.bungeeannounce.command.ForceBroadcastCommand;
 import fr.roytreo.bungeeannounce.command.MsgCommand;
 import fr.roytreo.bungeeannounce.handler.Logger;
 import fr.roytreo.bungeeannounce.handler.PlayerAnnouncer;
@@ -47,23 +49,28 @@ public class BungeeAnnouncePlugin extends Plugin implements Listener {
 	@Override
 	public void onEnable() {
 		instance = this;
-
+		
 		/** Load config file **/
 		this.configManager = new ConfigurationManager(this);
-		this.scheduledAnnouncement = this.configManager.loadScheduledAnnouncement();
-		this.configManager.loadAutoPlayerAnnouncement();
 		
 		/** Initialize the log system **/
 		logSystem = new Logger(this);
+		
+		/** Load config content **/
+		this.scheduledAnnouncement = this.configManager.loadScheduledAnnouncement();
+		this.configManager.loadAutoPlayerAnnouncement();
 		
 		/** Register commands **/
 		PluginManager pM = getProxy().getPluginManager();
 		for (AnnouncementManager aM : AnnouncementManager.values())
 			pM.registerCommand(this, aM.getCommandClass());
+		pM.registerCommand(this, new ForceBroadcastCommand(this));
 		pM.registerCommand(this, new BAReloadCommand(this));
 		pM.registerCommand(this, new ColorcodeCommand());
-		if (ConfigurationManager.Field.ENABLE_PRIVATE_MESSAGING.getBoolean())
-			pM.registerCommand(this, new MsgCommand(this, ConfigurationManager.Field.COMMAND_FOR_PRIVATE_MESSAGING.getString().split(",")));
+		if (ConfigurationManager.Field.ENABLE_PRIVATE_MESSAGING.getBoolean()) {
+			String cmmds = ConfigurationManager.Field.COMMAND_FOR_PRIVATE_MESSAGING.getString().replaceAll(" ,", "").replaceAll(", ", "");
+			pM.registerCommand(this, new MsgCommand(this, cmmds.split(",")));
+		}
 		pM.registerListener(this, this);
 		
 		/** Check for new Updates **/
@@ -91,10 +98,10 @@ public class BungeeAnnouncePlugin extends Plugin implements Listener {
 	 */
 	public void load() {
 		this.configManager = new ConfigurationManager(this);
+		logSystem = new Logger(this);
+		
 		this.scheduledAnnouncement = this.configManager.loadScheduledAnnouncement();
 		this.configManager.loadAutoPlayerAnnouncement();
-		
-		logSystem = new Logger(this);
 		
 		if (ConfigurationManager.Field.ENABLE_PRIVATE_MESSAGING.getBoolean())
 			getProxy().getPluginManager().registerCommand(this, new MsgCommand(this, ConfigurationManager.Field.COMMAND_FOR_PRIVATE_MESSAGING.getString()));

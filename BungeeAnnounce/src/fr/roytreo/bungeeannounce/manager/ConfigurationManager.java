@@ -69,9 +69,12 @@ public class ConfigurationManager {
 				int delay = schedulerSection.getInt(taskName + ".delay", 5);
 				int interval = schedulerSection.getInt(taskName + ".interval", 10);
 				Integer[] optionalTitleArgs = BAUtils.getOptionalTitleArgsFromConfig(announcement, type);
-				
-				output.add(new ScheduledAnnouncement(this.plugin, announcement, message, servers, permission, delay, interval, optionalTitleArgs));
-				
+			
+				if (interval < 0) {
+					getLogger().info("The scheduled announcement \"" + taskName + "\" has a negative interval. So it was frozen. In other words, the only way to broadcast it is to use the command: /forceBroadcast " + taskName);
+				} else {
+					output.add(new ScheduledAnnouncement(this.plugin, announcement, message, servers, permission, delay, interval, optionalTitleArgs));
+				}
 				i++;
 				
 			} catch (Exception ex) {

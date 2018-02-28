@@ -4,6 +4,7 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.Calendar;
 
 import fr.roytreo.bungeeannounce.BungeeAnnouncePlugin;
 import fr.roytreo.bungeeannounce.manager.AnnouncementManager;
@@ -19,14 +20,18 @@ public class Logger {
 	private File logFile;
 	private Boolean registerLogs;
 	
-	@SuppressWarnings("deprecation")
 	public Logger(BungeeAnnouncePlugin instance) {
 		this.registerLogs = ConfigurationManager.Field.REGISTER_LOGS.getBoolean();
 		if (this.registerLogs)
 		{
-			new File(instance.getDataFolder(), "logs/").mkdirs();
-			java.util.Date actual = new java.util.Date();
-			logFile = new File(instance.getDataFolder(), "logs/Started_at_" + actual.getHours() + "h_" + actual.getMinutes() + "m_" + actual.getSeconds() + "s_the_" + actual.getMonth() + "-" + actual.getDate() + "-" + actual.getYear() + ".log");
+			File logFolder = new File(instance.getDataFolder(), "logs/");
+			if (!logFolder.exists())
+				logFolder.mkdirs();
+			Calendar cal = Calendar.getInstance();
+			File dateFolder = new File(logFolder, (cal.get(Calendar.MONTH) + 1) + "-" + cal.get(Calendar.DAY_OF_MONTH) + "-" + cal.get(Calendar.YEAR) + "/");
+			if (!dateFolder.exists())
+				dateFolder.mkdirs();
+			logFile = new File(dateFolder, "Started_at_" + cal.get(Calendar.HOUR_OF_DAY) + "h_" + cal.get(Calendar.MINUTE) + "m_" + cal.get(Calendar.SECOND) + "s.log");
 			if (!logFile.exists())
 			{
 				try {
@@ -60,9 +65,11 @@ public class Logger {
 	{
 		if (this.registerLogs && sender != null) {
 			String typeUsed = announcement.toString().toUpperCase();
-			java.util.Date actual = new java.util.Date();
-			@SuppressWarnings("deprecation")
-			String write = "[" + actual.getHours() + ":" + actual.getMinutes() + ":" + actual.getSeconds() + "] [" + sender.getName() + "/" + typeUsed + "]: " + ChatColor.stripColor(message);
+			Calendar cal = Calendar.getInstance();
+			int hours = cal.get(Calendar.HOUR_OF_DAY);
+			int minutes = cal.get(Calendar.MINUTE);
+			int seconds = cal.get(Calendar.SECOND);
+			String write = "[" + (hours < 10 ? "0" + hours : hours) + ":" + (minutes < 10 ? "0" + minutes : minutes) + ":" + (seconds < 10 ? "0" + seconds : seconds) + "][" + sender.getName() + "/" + typeUsed + "]: " + ChatColor.stripColor(message);
 			this.writeText(write);
 		}
 	}
