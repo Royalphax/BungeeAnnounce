@@ -59,11 +59,8 @@ public enum AnnouncementManager {
 	 * Send any type of anouncement with a lot of possibilities by specifying all of each following parameters. 
 	 *
 	 * @author Roytreo28
-	 * @param sender The sender who's supposed to had sent this announcement. Put <b>null</b> if ignored.
+	 * @param player The sender who's supposed to had sent this announcement. Put <b>null</b> if ignored.
 	 * @param message Message of the announcement.
-	 * @param servers Servers on which the announcement will be displayed. Put <b>null</b> if you want to display the announcement on all your bungee servers.
-	 * @param prefix Does the announcement use pre defined prefix in config.yml.
-	 * @param permission Permission which is required to see this announcement. Put an empty string if ignored.
 	 * @param optionalTitleArgs Optional title arguments. Put three integers and they will be used for fadeIn, stay and fadeOut values.
 	 */
 	public void send(ProxiedPlayer player, TextComponent message, Integer... optionalTitleArgs) {
