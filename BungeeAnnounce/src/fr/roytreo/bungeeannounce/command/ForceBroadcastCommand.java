@@ -48,6 +48,10 @@ public class ForceBroadcastCommand extends Command {
 			
 			List<ServerInfo> serversInfo = new ArrayList<>();
 			for (String entry : servers) {
+				if (entry == "all") {
+					serversInfo.clear();
+					break;
+				}
 				ServerInfo info = plugin.getProxy().getServerInfo(entry);
 				if (info != null) {
 					serversInfo.add(info);
