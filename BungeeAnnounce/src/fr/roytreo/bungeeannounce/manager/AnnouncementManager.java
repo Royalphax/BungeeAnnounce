@@ -59,7 +59,7 @@ public enum AnnouncementManager {
 	 * Send any type of anouncement with a lot of possibilities by specifying all of each following parameters. 
 	 *
 	 * @author Roytreo28
-	 * @param player The sender who's supposed to had sent this announcement. Put <b>null</b> if ignored.
+	 * @param player The player to whom we must send the message.
 	 * @param message Message of the announcement.
 	 * @param optionalTitleArgs Optional title arguments. Put three integers and they will be used for fadeIn, stay and fadeOut values.
 	 */
