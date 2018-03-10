@@ -95,21 +95,24 @@ public class BAUtils {
 		for (int i = 0; i < bigSplit.size(); i++)
 		{
 			String str = bigSplit.get(i);
-			if (str.equals(splittedSeparator) && bigSplit.get(i+1).equals(splittedSeparator))
+			if (equals(separator, bigSplit, i))
 			{
-				int jump = jumpAfterNextSeparator(bigSplit, i+2);
-				for (int j = i; j < jump; j++)
+				int jump = jumpAfterNextSeparator(" ", bigSplit, i);
+				for (int j = i; j <= jump; j++)
 					output.append(bigSplit.get(j));
-				output.append(" ");
 				i = jump;
 				continue;
-			} else if (str.equals("[") 
-					&& bigSplit.get(i+1).equals("l")
-					&& bigSplit.get(i+2).equals("n")
-					&& bigSplit.get(i+3).equals("]"))
+			} else if (equals("[lang]", bigSplit, i))
+			{
+				int jump = jumpAfterNextSeparator("[/lang]", bigSplit, i);
+				for (int j = i; j <= jump; j++)
+					output.append(bigSplit.get(j));
+				i = jump;
+				continue;
+			} else if (equals("[ln]", bigSplit, i))
 			{
 				output.append("[ln]");
-				i = i+3;
+				i+=3;
 				continue;
 			}
 			if (str.equals("&"))
@@ -138,15 +141,24 @@ public class BAUtils {
 		return split.get(index-2).equals("&");
 	}
 	
-	private static int jumpAfterNextSeparator(ArrayList<String> split, int index)
+	private static int jumpAfterNextSeparator(String separator, ArrayList<String> split, int index)
 	{
+		index++;
 		for (int i = index; i < split.size(); i++)
-		{
-			String str = split.get(i);
-			if (str.equals(" "))
-				return i;
-		}
-		return split.size();
+			if (equals(separator, split, i))
+				return i + (separator.length() - 1);
+		return (split.size() - 1);
+	}
+	
+	private static boolean equals(String word, ArrayList<String> sentence, int i) {
+		int length = word.length();
+		if (length + i > sentence.size())
+			return false;
+		String[] split = word.split("");
+		for (int x = 0; x < split.length; x++)
+			if (!sentence.get(i+x).equals(split[x]))
+				return false;
+		return true;
 	}
 	
 	public static String translatePlaceholders(String input, CommandSender sender, ProxiedPlayer receiver, ServerInfo server)
