@@ -48,15 +48,17 @@ public class ForceBroadcastCommand extends Command {
 			
 			List<ServerInfo> serversInfo = new ArrayList<>();
 			for (String entry : servers) {
-				if (entry == "all") {
+				if (entry.trim().equalsIgnoreCase("all")) {
 					serversInfo.clear();
 					break;
-				}
-				ServerInfo info = plugin.getProxy().getServerInfo(entry);
-				if (info != null) {
-					serversInfo.add(info);
 				} else {
-					sender.sendMessage(new TextComponent(BAUtils.colorizz("&eServer \"" + entry + "\" for announcement \"" + taskName + "\" doesn't exist ! Skipping it ...")));
+					ServerInfo info = plugin.getProxy().getServerInfo(entry);
+					if (info != null) {
+						serversInfo.add(info);
+					} else {
+						sender.sendMessage(new TextComponent(BAUtils.colorizz("&eServer \"" + entry
+								+ "\" for announcement \"" + taskName + "\" doesn't exist ! Skipping it ...")));
+					}
 				}
 			}
 			
