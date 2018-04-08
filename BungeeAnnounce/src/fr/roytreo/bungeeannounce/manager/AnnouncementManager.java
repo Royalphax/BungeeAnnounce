@@ -117,10 +117,9 @@ public enum AnnouncementManager {
 	 * @author Roytreo28
 	 * @param announcement The announce type (title/subtitle/warn/announce/action).
 	 * @param sender The sender who's supposed to had sent this announcement. Put <b>null</b> if ignored.
-	 * @param player The player to whom we must send the message.
+	 * @param pplayer The player to whom we must send the message.
 	 * @param message Message of the announcement.
 	 * @param prefix Does the announcement use pre defined prefix in config.yml.
-	 * @param permission Permission which is required to see this announcement. Put an empty string if ignored.
 	 * @param optionalTitleArgs Optional title arguments. Put three integers and they will be used for fadeIn, stay and fadeOut values.
 	 */
 	public static void sendToPlayer(AnnouncementManager announcement, CommandSender sender, ProxiedPlayer pplayer, String message, boolean prefix, Integer... optionalTitleArgs) {
@@ -139,7 +138,6 @@ public enum AnnouncementManager {
 	 * @param player The player to whom we must send the message.
 	 * @param message Message of the announcement.
 	 * @param prefix Does the announcement use pre defined prefix in config.yml.
-	 * @param permission Permission which is required to see this announcement. Put an empty string if ignored.
 	 * @param optionalTitleArgs Optional title arguments. Put three integers and they will be used for fadeIn, stay and fadeOut values.
 	 */
 	public static void sendToPlayer(AnnouncementManager announcement, CommandSender sender, String player, String message, boolean prefix, Integer... optionalTitleArgs) {
