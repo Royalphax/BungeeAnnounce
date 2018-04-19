@@ -17,6 +17,7 @@ private-message-send: '&3Send to &e%RECEIVER%: &d%MESSAGE%'
 private-message-received: '&3Received from &e%SENDER%: &d%MESSAGE%'
 private-message-player-not-online: '&c%PLAYER% is unreachable :('
 private-message-sender-equals-receiver: '&7Are you schizophrenic ? :O'
+reply-info: '&7Use &a/reply &7to respond to &b%SENDER%'
 #
 #===========================# Logs settings #============================#
 #Register each announcement sended by your staff team in a log (located at BungeeAnnounce/logs)
