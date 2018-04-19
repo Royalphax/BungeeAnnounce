@@ -35,21 +35,13 @@ public class ReplyCommand extends Command {
 			if (this.msgManager.isReplierOnline(player)) {
 				ProxiedPlayer to = this.msgManager.getReplier(player);
 				StringBuilder msgBuilder = new StringBuilder();
-				for (int i = 0; i < args.length; i++) {
+				for (int i = 0; i < args.length; i++)
 					msgBuilder.append(args[i]).append(" ");
-				}
 				if (msgBuilder.toString().trim() == "")
 					return;
-				player.sendMessage(new TextComponent(ConfigurationManager.Field.PM_SENT.getString().replaceAll("%RECEIVER%", to.getName())
-						.replaceAll("%MESSAGE%", msgBuilder.toString().trim())));
-				to.sendMessage(new TextComponent(ConfigurationManager.Field.PM_RECEIVED.getString().replaceAll("%SENDER%", player.getName())
-						.replaceAll("%MESSAGE%", msgBuilder.toString().trim())));
-				if (to == player) {
-					sender.sendMessage(new TextComponent(ConfigurationManager.Field.PM_SENDER_EQUALS_RECEIVER.getString()));
-				}
-				this.msgManager.message(player, to);
+				this.msgManager.message(player, to, msgBuilder.toString());
 			} else {
-				player.sendMessage(new TextComponent(ConfigurationManager.Field.PM_PLAYER_NOT_ONLINE.getString().replaceAll("%PLAYER%", this.msgManager.getReplier(player).getName())));
+				player.sendMessage(new TextComponent(ConfigurationManager.Field.PM_PLAYER_NOT_ONLINE.getString().replaceAll("%PLAYER%", this.msgManager.getReplierName(player))));
 			}
 		} else {
 			sender.sendMessage(new TextComponent(ChatColor.RED + "You need to be a proxied player !"));
