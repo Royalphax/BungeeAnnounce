@@ -29,7 +29,7 @@ public class ConfigurationManager {
 			plugin.getDataFolder().mkdirs();
 		File file = new File(plugin.getDataFolder(), "config.yml");
 		if (!file.exists()) {
-			getLogger().info("Thanks for using BungeeAnnounce from Asynchronous.");
+			getLogger().info("Thanks for using BungeeAnnounce from Asynchronous. Don't forget to review it !");
 			getLogger().info("Generating configuration file ...");
 			try (InputStream in = plugin.getResourceAsStream("config.yml")) {
 				Files.copy(in, file.toPath());
@@ -137,7 +137,8 @@ public class ConfigurationManager {
 		PM_SENT("private-message-send", String.class, "&3Send to &e%RECEIVER%: &d%MESSAGE%"),
 		PM_RECEIVED("private-message-received", String.class, "&3Received from &e%SENDER%: &d%MESSAGE%"),
 		PM_PLAYER_NOT_ONLINE("private-message-player-not-online", String.class, "&c%PLAYER% is unreachable :("),
-		PM_SENDER_EQUALS_RECEIVER("private-message-sender-equals-receiver", String.class, "&7Are you schizophrenic ? :O");
+		PM_SENDER_EQUALS_RECEIVER("private-message-sender-equals-receiver", String.class, "&7Are you schizophrenic ? :O"),
+		REPLY_INFO("reply-info", String.class, "&7Use &a/reply &7to respond to &b%SENDER%");
 	
 		private String configField;
 		private Class<?> type;
