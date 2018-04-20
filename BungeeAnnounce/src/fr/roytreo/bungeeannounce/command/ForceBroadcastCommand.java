@@ -21,13 +21,13 @@ public class ForceBroadcastCommand extends Command {
 	private BungeeAnnouncePlugin plugin;
 
 	public ForceBroadcastCommand(BungeeAnnouncePlugin plugin) {
-		super("forcebroadcast", "bungeecord.command.reload", "bungee:forcebroadcast", "bungee:fb", "fb");
+		super("forcebroadcast", "bungeecord.command.forcebroadcast", "bungee:forcebroadcast", "bungee:fbc", "fbc");
 		this.plugin = plugin;
 	}
 
 	public void execute(CommandSender sender, String[] args) {
 		if (args.length == 0) {
-			sender.sendMessage(new TextComponent(ChatColor.RED + "Usage: /forcebroadcast <announcement>"));
+			sender.sendMessage(new TextComponent(ChatColor.RED + "Usage: /fbc <announcement>"));
 			return;
 		}
 		Configuration schedulerSection = this.plugin.getConfigManager().getConfig().getSection("scheduler");
