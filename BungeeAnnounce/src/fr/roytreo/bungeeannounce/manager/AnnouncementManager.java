@@ -92,7 +92,7 @@ public enum AnnouncementManager {
 		permission = permission.trim();
 		if (servers == null || servers.isEmpty()) {
 			for (ProxiedPlayer player : BungeeAnnouncePlugin.getProxyServer().getPlayers()) {
-				if ((!permission.equals("") && !player.hasPermission(permission)) || player.getServer().getInfo() == null) 
+				if ((!permission.equals("") && !player.hasPermission(permission)) || player.getServer() == null || player.getServer().getInfo() == null) 
 					continue;
 				ServerInfo server = player.getServer().getInfo();
 				message = BAUtils.translatePlaceholders(message, sender, player, server);
@@ -123,7 +123,7 @@ public enum AnnouncementManager {
 	 * @param optionalTitleArgs Optional title arguments. Put three integers and they will be used for fadeIn, stay and fadeOut values.
 	 */
 	public static void sendToPlayer(AnnouncementManager announcement, CommandSender sender, ProxiedPlayer pplayer, String message, boolean prefix, Integer... optionalTitleArgs) {
-		if (pplayer.isConnected() && pplayer.getServer().getInfo() != null) {
+		if (pplayer.isConnected() && pplayer.getServer() != null && pplayer.getServer().getInfo() != null) {
 			message = BAUtils.translatePlaceholders(message, sender, pplayer, pplayer.getServer().getInfo());
 			announcement.send(pplayer, BAUtils.parse((prefix ? ConfigurationManager.Field.ANNOUNCE_PREFIX.getString() : "") + message), optionalTitleArgs);
 		}
@@ -142,7 +142,7 @@ public enum AnnouncementManager {
 	 */
 	public static void sendToPlayer(AnnouncementManager announcement, CommandSender sender, String player, String message, boolean prefix, Integer... optionalTitleArgs) {
 		ProxiedPlayer pplayer = BungeeAnnouncePlugin.getProxyServer().getPlayer(player);
-		if (pplayer.isConnected() && pplayer.getServer().getInfo() != null) {
+		if (pplayer.isConnected() && pplayer.getServer() != null && pplayer.getServer().getInfo() != null) {
 			message = BAUtils.translatePlaceholders(message, sender, pplayer, pplayer.getServer().getInfo());
 			announcement.send(pplayer, BAUtils.parse((prefix ? ConfigurationManager.Field.ANNOUNCE_PREFIX.getString() : "") + message), optionalTitleArgs);
 		}
