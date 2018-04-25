@@ -40,6 +40,7 @@ private-message-send: "<span id="private-message-send-config"></span>"
 private-message-received: "<span id="private-message-received-config"></span>"
 private-message-player-not-online: "<span id="private-message-player-not-online-config"></span>"
 private-message-sender-equals-receiver: "<span id="private-message-sender-equals-receiver-config"></span>"
+reply-info: "<span id="private-message-reply-info-config"></span>"
 enable-announcement-logs: <span id="enable-announcement-logs-config"></span>
 scheduler:<span id="scheduler-section-config"></span>
 player-announcer:<span id="player-announcer-section-config"></span></pre>
@@ -90,7 +91,7 @@ player-announcer:<span id="player-announcer-section-config"></span></pre>
             </div>
             <div class="form-group">
                 <label for="warn-prefix"><u>Warn prefix</u> — <small>Do you want to set a default prefix for all warn announcements ? If yes, then, write it.</small></label>
-                <input type="text" class="form-control" placeholder="&f[&4&lWARN&f] &b" id="warn-prefix">
+                <input type="text" class="form-control" value="&f[&4&lWARN&f] &b" id="warn-prefix">
             </div>
             <hr/>
             <h2>➁ Private messaging settings</h2>
@@ -103,7 +104,7 @@ player-announcer:<span id="player-announcer-section-config"></span></pre>
                 <div class="form-group">
                     <label for="command-for-private-message"><u>Private messaging command</u> — <small>If you've enabled private messaging, which command do you want to be used ?</small></label>  
                     <p>When a player wants to communicate, he will do this: /your_command [player] [message].</p>
-                    <input type="text" class="form-control" placeholder="your_command" id="command-for-private-message">
+                    <input type="text" class="form-control" value="your_command" id="command-for-private-message">
                 </div>
                 <p>The following fields support these placeholders:</p>
                 <ul>
@@ -126,6 +127,10 @@ player-announcer:<span id="player-announcer-section-config"></span></pre>
                 <div class="form-group">
                     <label for="private-message-sender-equals-receiver"><u>Private message: sender = receiver</u> — <small>If you've enabled private messaging, which format do you want the error when the requested player is the same as the sender of the message looks like ?</small></label>  
                     <input type="text" class="form-control" value="&7Are you schizophrenic ? :O" id="private-message-sender-equals-receiver">
+                </div>
+				<div class="form-group">
+                    <label for="private-message-reply-info"><u>Private message: reply info</u> — <small>If you've enabled private messaging, which format do you want the action message about the reply command looks like ?</small></label>  
+                    <input type="text" class="form-control" value="&7Use &a/reply &7to respond to &b%SENDER%" id="private-message-reply-info">
                 </div>
             </div>
             <hr/>
@@ -156,7 +161,7 @@ player-announcer:<span id="player-announcer-section-config"></span></pre>
             <hr/>
             <button id="generateButton" type="button" class="btn btn-primary btn-lg btn-block" onClick="generateConfig();" data-toggle="modal" data-target="#configModal">Generate configuration <b><span id="status"></span></b></button><br/>
             <footer class="footer">
-                Created by <b><a href="https://github.com/Roytreo28" target="_blank">Roytreo28</a></b> with Bootstrap.
+                Created by <b><a href="https://github.com/Roytreo28" target="_blank">Roytreo28</a></b> using Bootstrap.
                 <div class="pull-right">Follow me on <b><a href="https://twitter.com/asynchronousVM" target="_blank">Twitter</a></b></div>
             </footer>
         </div>
@@ -279,7 +284,7 @@ player-announcer:<span id="player-announcer-section-config"></span></pre>
             function generateConfig() {
                 document.getElementById("status").innerHTML = "<span class='glyphicon glyphicon-refresh'></span>";
                 document.getElementById("configModalLabel").innerHTML = "Allright! Copy the following text and past it in your <code>config.yml</code> file after empty it.";
-                var parameters = ["announce-prefix", "title-prefix", "subtitle-prefix", "action-prefix", "warn-prefix", "enable-private-message", "command-for-private-message", "private-message-send", "private-message-received", "private-message-player-not-online", "private-message-sender-equals-receiver", "enable-announcement-logs"];
+                var parameters = ["announce-prefix", "title-prefix", "subtitle-prefix", "action-prefix", "warn-prefix", "enable-private-message", "command-for-private-message", "private-message-send", "private-message-received", "private-message-player-not-online", "private-message-sender-equals-receiver", "private-message-reply-info", "enable-announcement-logs"];
                 for (var i = 0; i < parameters.length; i++) {
                     var rawElement = document.getElementById(parameters[i]);
                     var configElement = document.getElementById(parameters[i] + "-config");
