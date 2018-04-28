@@ -103,11 +103,18 @@ public class ConfigurationManager {
 				}
 				
 				String message = playerAnnouncerSection.getString(playerName + ".message", "<No message was set for this announcement>");
+				List<String> requiredServers = playerAnnouncerSection.getStringList(playerName + ".required-servers");
+				List<String> broadcastServers = playerAnnouncerSection.getStringList(playerName + ".broadcast-servers");
 				List<String> servers = playerAnnouncerSection.getStringList(playerName + ".servers");
+				if (requiredServers.isEmpty() && broadcastServers.isEmpty() && !servers.isEmpty()) {
+					getLogger().info("Be aware that you're using the old configuration method for the player annoncer section. The parameter 'servers' has been replaced by 'broadcast-servers' and a new parameter 'required-servers' was added. To learn more, save your actual config.yml somewhere and let the plugin generates a new one, then read the instructions in it.");
+					broadcastServers=servers;
+					requiredServers.add("all");
+				}
 				String permission = playerAnnouncerSection.getString(playerName + ".permission", "");
 				Integer[] optionalTitleArgs = BAUtils.getOptionalTitleArgsFromConfig(announcement, type);
 				
-				output.add(new PlayerAnnouncer(this.plugin, playerName, announcement, message, servers, permission, optionalTitleArgs));
+				output.add(new PlayerAnnouncer(this.plugin, playerName, announcement, message, requiredServers, broadcastServers, permission, optionalTitleArgs));
 				
 				i++;
 			} catch (Exception ex) {

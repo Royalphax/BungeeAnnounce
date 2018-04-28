@@ -7,6 +7,7 @@ import fr.roytreo.bungeeannounce.BungeeAnnouncePlugin;
 import fr.roytreo.bungeeannounce.manager.AnnouncementManager;
 import net.md_5.bungee.api.config.ServerInfo;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
+import net.md_5.bungee.api.connection.Server;
 
 /**
  * @author Roytreo28
@@ -23,25 +24,40 @@ public class PlayerAnnouncer {
 	private String message;
 	private String playerName;
 	private String permission;
-	private List<ServerInfo> servers;
+	private List<ServerInfo> requiredServers;
+	private List<ServerInfo> broadcastServers;
 	private Integer[] optionalTitleArgs;
 
-	public PlayerAnnouncer(BungeeAnnouncePlugin plugin, String playerName, AnnouncementManager announcement, String message, List<String> servers, String permission, Integer... optionalTitleArgs) {
+	public PlayerAnnouncer(BungeeAnnouncePlugin plugin, String playerName, AnnouncementManager announcement, String message, List<String> requiredServers, List<String> broadcastServers, String permission, Integer... optionalTitleArgs) {
 		this.playerName = playerName;
 		this.announcement = announcement;
 		this.message = message;
-		this.servers = new ArrayList<>();
+		this.requiredServers = new ArrayList<>();
+		this.broadcastServers = new ArrayList<>();
 		this.permission = permission;
 		this.optionalTitleArgs = optionalTitleArgs;
-		for (String entry : servers) {
-			if (entry.equalsIgnoreCase("all"))
+		for (String entry : requiredServers) {
+			if (entry.equalsIgnoreCase("all")) {
+				this.requiredServers.clear();
 				break;
+			}
 			ServerInfo info = plugin.getProxy().getServerInfo(entry);
 			if (info != null) {
-				this.servers.add(info);
+				this.requiredServers.add(info);
 			} else {
-				plugin.getLogger().warning("Server \"" + entry + "\" for player \"" + playerName + "\" doesn't exist. Anyway, skipping this server.");
-				continue;
+				plugin.getLogger().warning("Required server \"" + entry + "\" for player \"" + playerName + "\" doesn't exist. Skipping it ...");
+			}
+		}
+		for (String entry : broadcastServers) {
+			if (entry.equalsIgnoreCase("all")) {
+				this.broadcastServers.clear();
+				break;
+			}
+			ServerInfo info = plugin.getProxy().getServerInfo(entry);
+			if (info != null) {
+				this.broadcastServers.add(info);
+			} else {
+				plugin.getLogger().warning("Broadcast server \"" + entry + "\" for player \"" + playerName + "\" doesn't exist. Skipping it ...");
 			}
 		}
 		playerAnnouncers.add(this);
@@ -59,8 +75,12 @@ public class PlayerAnnouncer {
 		return this.message;
 	}
 	
-	public List<ServerInfo> getServers() {
-		return this.servers;
+	public List<ServerInfo> getRequiredServers() {
+		return this.requiredServers;
+	}
+	
+	public List<ServerInfo> getBroadcastServers() {
+		return this.broadcastServers;
 	}
 	
 	public String getPermission() {
@@ -71,19 +91,21 @@ public class PlayerAnnouncer {
 		return this.optionalTitleArgs;
 	}
 	
-	public static List<PlayerAnnouncer> getAnnouncementList(ProxiedPlayer player)
+	public static List<PlayerAnnouncer> getAnnouncementList(ProxiedPlayer player, Server connectingServer)
 	{
 		List<PlayerAnnouncer> output = new ArrayList<>();
-		for (PlayerAnnouncer playerAnnouncer : playerAnnouncers)
-			if (player.getName().equals(playerAnnouncer.getPlayerName()) || player.hasPermission(playerAnnouncer.getPermission()))
-				output.add(playerAnnouncer);
+		if (connectingServer != null && connectingServer.getInfo() != null)
+			for (PlayerAnnouncer playerAnnouncer : playerAnnouncers)
+				if ((player.getName().equals(playerAnnouncer.getPlayerName())
+						|| player.hasPermission(playerAnnouncer.getPermission())) 
+						&& (playerAnnouncer.getRequiredServers().isEmpty() 
+								|| playerAnnouncer.getRequiredServers().contains(connectingServer.getInfo())))
+					output.add(playerAnnouncer);
 		return output;
 	}
 	
-	public static boolean hasAnnouncement(ProxiedPlayer player)
+	public static boolean hasAnnouncement(ProxiedPlayer player, Server connectingServer)
 	{
-		if (getAnnouncementList(player).isEmpty())
-			return false;
-		return true;
+		return !getAnnouncementList(player, connectingServer).isEmpty();
 	}
 }

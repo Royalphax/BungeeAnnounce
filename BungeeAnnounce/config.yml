@@ -32,8 +32,8 @@ enable-announcement-logs: false
 #   message: 'message to display'
 #   type: (announce/title/subtitle/action/warn)
 #   servers: 
-#     - 'which server the message will be display on'
-#	  - 'put "all" if you want to display the message on all servers'
+#     - 'server name on which the message will be displayed'
+#	  put « - 'all' » if you want to display the message on all servers.
 #
 #Note: Use '[ln]' to go to the next line (works only for announce and warn messages).
 #A lot of placeholders are available to be used:
@@ -72,9 +72,12 @@ scheduler:
 #    permission: 'your.permission' (optional, if you want to do the same announcement for every player with permission 'your.permission')
 #    type: (announce/title/subtitle/action/warn)
 #    message: 'Message to display'
-#    servers: 
-#      - 'which server the message will be displayed on'
-#	   - 'put "all" if you want to display the message on all servers'
+#    required-servers:
+#      - 'server name on which the player should connect to send the announcement'
+#      put « - 'all' » if you want to send the announcement when the player connects on any server of your bungeecord network.
+#    broadcast-servers: 
+#      - 'server name on which the message will be displayed'
+#      put « - 'all' » if you want to display the message on all servers.
 #
 #Note: Use '[ln]' to go to the next line (works only for announce/warn).
 #A lot of placeholders are available to be used:
@@ -89,12 +92,16 @@ player-announcer:
   'Roytreo28':
     type: subtitle
     message: '&cThe developer is back ! <3'
-    servers:
-      - 'all'
-  'Droleur':
+    required-servers:
+      - 'Hub-1'
+    broadcast-servers:
+      - 'Hub-1'
+  'KingRider26':
     permission: bungeecord.vip
     type: action
     message: '&a%PLAYER_NAME% &ejoined the game on lobby &a%SERVER_NAME%&e!'
-    servers:
+    required-servers:
       - 'Lobby-1'
       - 'Lobby-2'
+    broadcast-servers:
+      - 'all'

@@ -109,11 +109,12 @@ public class BungeeAnnouncePlugin extends Plugin implements Listener {
 	@EventHandler
 	public void onConnect(final ServerConnectedEvent event) {
 		final ProxiedPlayer player = event.getPlayer();
-		if (PlayerAnnouncer.hasAnnouncement(player)) {
-			for (PlayerAnnouncer playerAnnouncer : PlayerAnnouncer.getAnnouncementList(player))
+		List<PlayerAnnouncer> autoPlayerAnnouncements = PlayerAnnouncer.getAnnouncementList(player, event.getServer());
+		if (!autoPlayerAnnouncements.isEmpty()) {
+			for (PlayerAnnouncer playerAnnouncer : autoPlayerAnnouncements)
 				getProxy().getScheduler().schedule(this, new Runnable() {
 					public void run() {
-						AnnouncementManager.sendToServer(playerAnnouncer.getAnnouncement(), getProxy().getConsole(), playerAnnouncer.getMessage(), playerAnnouncer.getServers(), false, "", playerAnnouncer.getOptionalTitleArgs());
+						AnnouncementManager.sendToServer(playerAnnouncer.getAnnouncement(), getProxy().getConsole(), playerAnnouncer.getMessage(), playerAnnouncer.getBroadcastServers(), false, "", playerAnnouncer.getOptionalTitleArgs());
 					}
 				}, 500, TimeUnit.MILLISECONDS);
 		}
