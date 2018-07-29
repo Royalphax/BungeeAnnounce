@@ -8,7 +8,7 @@ import java.util.Calendar;
 
 import fr.roytreo.bungeeannounce.BungeeAnnouncePlugin;
 import fr.roytreo.bungeeannounce.manager.AnnouncementManager;
-import fr.roytreo.bungeeannounce.manager.ConfigurationManager;
+import fr.roytreo.bungeeannounce.manager.ConfigManager;
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.CommandSender;
 
@@ -21,7 +21,7 @@ public class Logger {
 	private Boolean registerLogs;
 	
 	public Logger(BungeeAnnouncePlugin instance) {
-		this.registerLogs = ConfigurationManager.Field.REGISTER_LOGS.getBoolean();
+		this.registerLogs = ConfigManager.Field.REGISTER_LOGS.getBoolean();
 		if (this.registerLogs)
 		{
 			File logFolder = new File(instance.getDataFolder(), "logs/");

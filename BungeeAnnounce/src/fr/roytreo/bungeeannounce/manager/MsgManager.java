@@ -16,12 +16,12 @@ public class MsgManager {
 	}
 	
 	public void message(ProxiedPlayer from, ProxiedPlayer to, String message) {
-		from.sendMessage(new TextComponent(ConfigurationManager.Field.PM_SENT.getString().replaceAll("%RECEIVER%", to.getName()).replaceAll("%MESSAGE%", message.trim())));
-		to.sendMessage(new TextComponent(ConfigurationManager.Field.PM_RECEIVED.getString().replaceAll("%SENDER%", from.getName()).replaceAll("%MESSAGE%", message.trim())));
+		from.sendMessage(new TextComponent(ConfigManager.Field.PM_SENT.getString().replaceAll("%RECEIVER%", to.getName()).replaceAll("%MESSAGE%", message.trim())));
+		to.sendMessage(new TextComponent(ConfigManager.Field.PM_RECEIVED.getString().replaceAll("%SENDER%", from.getName()).replaceAll("%MESSAGE%", message.trim())));
 		if (to == from)
-			from.sendMessage(new TextComponent(ConfigurationManager.Field.PM_SENDER_EQUALS_RECEIVER.getString()));
+			from.sendMessage(new TextComponent(ConfigManager.Field.PM_SENDER_EQUALS_RECEIVER.getString()));
 		if (!map.containsKey(to.getName()))
-			AnnouncementManager.sendToPlayer(AnnouncementManager.ACTION, null, to, ConfigurationManager.Field.REPLY_INFO.getString().replaceAll("%SENDER%", from.getName()), false);
+			AnnouncementManager.sendToPlayer(AnnouncementManager.ACTION, null, to, ConfigManager.Field.REPLY_INFO.getString().replaceAll("%SENDER%", from.getName()), false);
 		if (hasReplier(to))
 			map.remove(to.getName());
 		map.put(to.getName(), from.getName());

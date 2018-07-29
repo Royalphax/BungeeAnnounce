@@ -18,18 +18,20 @@ import net.md_5.bungee.config.Configuration;
 import net.md_5.bungee.config.ConfigurationProvider;
 import net.md_5.bungee.config.YamlConfiguration;
 
-public class ConfigurationManager {
+public class ConfigManager {
 	
 	private BungeeAnnouncePlugin plugin;
 	private Configuration config;
+	private Configuration channelConfig;
 
-	public ConfigurationManager(BungeeAnnouncePlugin plugin) {
+	public ConfigManager(BungeeAnnouncePlugin plugin) {
 		this.plugin = plugin;
 		if (!plugin.getDataFolder().exists())
 			plugin.getDataFolder().mkdirs();
 		File file = new File(plugin.getDataFolder(), "config.yml");
 		if (!file.exists()) {
 			getLogger().info("Thanks for using BungeeAnnounce from Asynchronous. Don't forget to review it !");
+			getLogger().info("We are a team of developers and we would really appreciate if you could follow our twitter page where we post news about our plugins <3 https://twitter.com/AsyncDevTeam");
 			getLogger().info("Generating configuration file ...");
 			try (InputStream in = plugin.getResourceAsStream("config.yml")) {
 				Files.copy(in, file.toPath());
@@ -45,7 +47,39 @@ public class ConfigurationManager {
 		} catch (IOException e) {
 			new ExceptionManager(e).register(plugin, true);
 		}
+		// Channel config file
+		File channelsFile = new File(plugin.getDataFolder(), "channels.yml");
+		if (!channelsFile.exists()) {
+			try (InputStream in = plugin.getResourceAsStream("channels.yml")) {
+				Files.copy(in, channelsFile.toPath());
+			} catch (IOException e) {
+				new ExceptionManager(e).register(plugin, true);
+				getLogger().warning("Error when generating channels configuration file !");
+			} finally {
+				getLogger().info("Channels configuration file was generated with success !");
+			}
+		}
+		try {
+			this.channelConfig = ConfigurationProvider.getProvider(YamlConfiguration.class).load(channelsFile);
+		} catch (IOException e) {
+			new ExceptionManager(e).register(plugin, true);
+		}
 		Field.init(this.config);
+	}
+	
+	public void loadChannels() {
+		if (!this.channelConfig.getBoolean("enable-channels"))
+			return;
+		Configuration channelsSection = this.channelConfig.getSection("channels");
+		for (String channelName : channelsSection.getKeys()) {
+			String permission = this.channelConfig.getString(channelName + ".permission", "");
+			String command = this.channelConfig.getString(channelName + ".toggle-command", "");
+			String format = this.channelConfig.getString(channelName + ".format", "");
+			String description = this.channelConfig.getString(channelName + ".description", "");
+			String onJoin = this.channelConfig.getString(channelName + ".on-join", "");
+			String onLeft = this.channelConfig.getString(channelName + ".on-quit", "");
+			new ChannelManager(this.plugin, channelName, permission, command, description, format, onJoin, onLeft);
+		}
 	}
 	
 	public List<ScheduledAnnouncement> loadScheduledAnnouncement() {

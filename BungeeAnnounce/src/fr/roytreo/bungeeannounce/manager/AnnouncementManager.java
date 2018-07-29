@@ -24,18 +24,18 @@ import net.md_5.bungee.api.plugin.Command;
  * @author Roytreo28
  */
 public enum AnnouncementManager {
-	ACTION("action", ConfigurationManager.Field.ACTION_PREFIX, new ActionAction(), new SendActionCommand()), 
-	ANNOUNCE("announce", ConfigurationManager.Field.ANNOUNCE_PREFIX, new fr.roytreo.bungeeannounce.announcement.announce.AnnounceAction(), new AnnounceCommand()), 
-	WARN("warn", ConfigurationManager.Field.WARN_PREFIX, new WarnAction(), new WarnCommand()), 
-	SUBTITLE("subtitle", ConfigurationManager.Field.SUBTITLE_PREFIX, new SubtitleAction(), new SendSubtitleCommand()), 
-	TITLE("title", ConfigurationManager.Field.TITLE_PREFIX, new TitleAction(), new SendTitleCommand());
+	ACTION("action", ConfigManager.Field.ACTION_PREFIX, new ActionAction(), new SendActionCommand()), 
+	ANNOUNCE("announce", ConfigManager.Field.ANNOUNCE_PREFIX, new fr.roytreo.bungeeannounce.announcement.announce.AnnounceAction(), new AnnounceCommand()), 
+	WARN("warn", ConfigManager.Field.WARN_PREFIX, new WarnAction(), new WarnCommand()), 
+	SUBTITLE("subtitle", ConfigManager.Field.SUBTITLE_PREFIX, new SubtitleAction(), new SendSubtitleCommand()), 
+	TITLE("title", ConfigManager.Field.TITLE_PREFIX, new TitleAction(), new SendTitleCommand());
 
 	private String rawType;
-	private ConfigurationManager.Field prefix;
+	private ConfigManager.Field prefix;
 	private AnnounceAction action;
 	private Command command;
 
-	private AnnouncementManager(String rawType, ConfigurationManager.Field prefix, AnnounceAction action, Command command) {
+	private AnnouncementManager(String rawType, ConfigManager.Field prefix, AnnounceAction action, Command command) {
 		this.rawType = rawType;
 		this.prefix = prefix;
 		this.action = action;
@@ -47,7 +47,7 @@ public enum AnnouncementManager {
 		return this.rawType;
 	}
 	
-	public ConfigurationManager.Field getFieldPrefix() {
+	public ConfigManager.Field getFieldPrefix() {
 		return this.prefix;
 	}
 	
@@ -125,7 +125,7 @@ public enum AnnouncementManager {
 	public static void sendToPlayer(AnnouncementManager announcement, CommandSender sender, ProxiedPlayer pplayer, String message, boolean prefix, Integer... optionalTitleArgs) {
 		if (pplayer.isConnected() && pplayer.getServer() != null && pplayer.getServer().getInfo() != null) {
 			message = BAUtils.translatePlaceholders(message, sender, pplayer, pplayer.getServer().getInfo());
-			announcement.send(pplayer, BAUtils.parse((prefix ? ConfigurationManager.Field.ANNOUNCE_PREFIX.getString() : "") + message), optionalTitleArgs);
+			announcement.send(pplayer, BAUtils.parse((prefix ? ConfigManager.Field.ANNOUNCE_PREFIX.getString() : "") + message), optionalTitleArgs);
 		}
 	}
 	
@@ -144,7 +144,7 @@ public enum AnnouncementManager {
 		ProxiedPlayer pplayer = BungeeAnnouncePlugin.getProxyServer().getPlayer(player);
 		if (pplayer.isConnected() && pplayer.getServer() != null && pplayer.getServer().getInfo() != null) {
 			message = BAUtils.translatePlaceholders(message, sender, pplayer, pplayer.getServer().getInfo());
-			announcement.send(pplayer, BAUtils.parse((prefix ? ConfigurationManager.Field.ANNOUNCE_PREFIX.getString() : "") + message), optionalTitleArgs);
+			announcement.send(pplayer, BAUtils.parse((prefix ? ConfigManager.Field.ANNOUNCE_PREFIX.getString() : "") + message), optionalTitleArgs);
 		}
 	}
 }

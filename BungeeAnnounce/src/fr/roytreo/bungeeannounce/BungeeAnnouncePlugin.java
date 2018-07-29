@@ -11,13 +11,13 @@ import fr.roytreo.bungeeannounce.command.MsgCommand;
 import fr.roytreo.bungeeannounce.handler.Logger;
 import fr.roytreo.bungeeannounce.handler.PlayerAnnouncer;
 import fr.roytreo.bungeeannounce.manager.AnnouncementManager;
-import fr.roytreo.bungeeannounce.manager.ConfigurationManager;
+import fr.roytreo.bungeeannounce.manager.ChannelManager;
+import fr.roytreo.bungeeannounce.manager.ConfigManager;
 import fr.roytreo.bungeeannounce.manager.URLManager;
 import fr.roytreo.bungeeannounce.stat.DataRegister;
 import fr.roytreo.bungeeannounce.task.ScheduledAnnouncement;
 import net.md_5.bungee.api.ProxyServer;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
-import net.md_5.bungee.api.event.ServerConnectedEvent;
 import net.md_5.bungee.api.plugin.Listener;
 import net.md_5.bungee.api.plugin.Plugin;
 import net.md_5.bungee.api.plugin.PluginManager;
@@ -36,7 +36,7 @@ public class BungeeAnnouncePlugin extends Plugin implements Listener {
 	
 	private Boolean update;
 	private final Boolean localhost;
-	private ConfigurationManager configManager;
+	private ConfigManager configManager;
 	private List<ScheduledAnnouncement> scheduledAnnouncement;
 	
 	public BungeeAnnouncePlugin() {
@@ -50,7 +50,7 @@ public class BungeeAnnouncePlugin extends Plugin implements Listener {
 		instance = this;
 		
 		/** Load config file **/
-		this.configManager = new ConfigurationManager(this);
+		this.configManager = new ConfigManager(this);
 		
 		/** Initialize the log system **/
 		logSystem = new Logger(this);
@@ -58,6 +58,7 @@ public class BungeeAnnouncePlugin extends Plugin implements Listener {
 		/** Load config content **/
 		this.scheduledAnnouncement = this.configManager.loadScheduledAnnouncement();
 		this.configManager.loadAutoPlayerAnnouncement();
+		this.configManager.loadChannels();
 		
 		/** Register commands **/
 		PluginManager pM = getProxy().getPluginManager();
@@ -66,8 +67,8 @@ public class BungeeAnnouncePlugin extends Plugin implements Listener {
 		pM.registerCommand(this, new ForceBroadcastCommand(this));
 		pM.registerCommand(this, new BAReloadCommand(this));
 		pM.registerCommand(this, new ColorcodeCommand());
-		if (ConfigurationManager.Field.ENABLE_PRIVATE_MESSAGING.getBoolean()) {
-			String cmmds = ConfigurationManager.Field.COMMAND_FOR_PRIVATE_MESSAGING.getString().replaceAll(" ,", ",").replaceAll(", ", ",");
+		if (ConfigManager.Field.ENABLE_PRIVATE_MESSAGING.getBoolean()) {
+			String cmmds = ConfigManager.Field.COMMAND_FOR_PRIVATE_MESSAGING.getString().replaceAll(" ,", ",").replaceAll(", ", ",");
 			pM.registerCommand(this, new MsgCommand(this, cmmds.split(",")));
 		}
 		pM.registerListener(this, this);
@@ -96,18 +97,18 @@ public class BungeeAnnouncePlugin extends Plugin implements Listener {
 	 * To do better, the load method should be executed in the onEnable to avoid repeating lines of code. However, since it is only used for the BAReload command, I decided to separate it from the onEnable.
 	 */
 	public void load() {
-		this.configManager = new ConfigurationManager(this);
+		this.configManager = new ConfigManager(this);
 		logSystem = new Logger(this);
 		
 		this.scheduledAnnouncement = this.configManager.loadScheduledAnnouncement();
 		this.configManager.loadAutoPlayerAnnouncement();
 		
-		if (ConfigurationManager.Field.ENABLE_PRIVATE_MESSAGING.getBoolean())
-			getProxy().getPluginManager().registerCommand(this, new MsgCommand(this, ConfigurationManager.Field.COMMAND_FOR_PRIVATE_MESSAGING.getString()));
+		if (ConfigManager.Field.ENABLE_PRIVATE_MESSAGING.getBoolean())
+			getProxy().getPluginManager().registerCommand(this, new MsgCommand(this, ConfigManager.Field.COMMAND_FOR_PRIVATE_MESSAGING.getString()));
 	}
 	
 	@EventHandler
-	public void onConnect(final ServerConnectedEvent event) {
+	public void onConnect(final net.md_5.bungee.api.event.ServerConnectedEvent event) {
 		final ProxiedPlayer player = event.getPlayer();
 		List<PlayerAnnouncer> autoPlayerAnnouncements = PlayerAnnouncer.getAnnouncementList(player, event.getServer());
 		if (!autoPlayerAnnouncements.isEmpty()) {
@@ -120,11 +121,24 @@ public class BungeeAnnouncePlugin extends Plugin implements Listener {
 		}
 	}
 	
+	@EventHandler
+	public void onChat(final net.md_5.bungee.api.event.ChatEvent event) {
+		if (event.getSender().isConnected() && event.getSender() instanceof ProxiedPlayer) {
+			final ProxiedPlayer player = (ProxiedPlayer) event.getSender();
+			final List<ChannelManager> channels = ChannelManager.getPlayerChannels(player);
+			if (channels.size() == 1) {
+				ChannelManager channel = channels.get(0);
+				channel.sendMessage(player, event.getMessage());
+				event.setCancelled(true);
+			}
+		}
+	}
+	
 	public List<ScheduledAnnouncement> getScheduledAnnouncement() {
 		return this.scheduledAnnouncement;
 	}
 	
-	public ConfigurationManager getConfigManager() {
+	public ConfigManager getConfigManager() {
 		return this.configManager;
 	}
 	

@@ -1,7 +1,7 @@
 package fr.roytreo.bungeeannounce.command;
 
 import fr.roytreo.bungeeannounce.BungeeAnnouncePlugin;
-import fr.roytreo.bungeeannounce.manager.ConfigurationManager;
+import fr.roytreo.bungeeannounce.manager.ConfigManager;
 import fr.roytreo.bungeeannounce.manager.MsgManager;
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.CommandSender;
@@ -42,7 +42,7 @@ public class MsgCommand extends Command {
 					return;
 				this.msgManager.message(player, to, msgBuilder.toString());
 			} else {
-				player.sendMessage(new TextComponent(ConfigurationManager.Field.PM_PLAYER_NOT_ONLINE.getString().replaceAll("%PLAYER%", name)));
+				player.sendMessage(new TextComponent(ConfigManager.Field.PM_PLAYER_NOT_ONLINE.getString().replaceAll("%PLAYER%", name)));
 			}
 		} else {
 			sender.sendMessage(new TextComponent(ChatColor.RED + "You need to be a proxied player !"));
