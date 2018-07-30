@@ -70,14 +70,15 @@ public class ConfigManager {
 	public void loadChannels() {
 		if (!this.channelConfig.getBoolean("enable-channels"))
 			return;
+		ChannelManager.setTipMessage(this.channelConfig.getString("multi-channels-tip"));
 		Configuration channelsSection = this.channelConfig.getSection("channels");
 		for (String channelName : channelsSection.getKeys()) {
-			String permission = this.channelConfig.getString(channelName + ".permission", "");
-			String command = this.channelConfig.getString(channelName + ".toggle-command", "");
-			String format = this.channelConfig.getString(channelName + ".format", "");
-			String description = this.channelConfig.getString(channelName + ".description", "");
-			String onJoin = this.channelConfig.getString(channelName + ".on-join", "");
-			String onLeft = this.channelConfig.getString(channelName + ".on-quit", "");
+			String permission = channelsSection.getString(channelName + ".permission", "");
+			String command = channelsSection.getString(channelName + ".toggle-command", "");
+			String format = channelsSection.getString(channelName + ".format", "");
+			String description = channelsSection.getString(channelName + ".description", "");
+			String onJoin = channelsSection.getString(channelName + ".on-join", "");
+			String onLeft = channelsSection.getString(channelName + ".on-quit", "");
 			new ChannelManager(this.plugin, channelName, permission, command, description, format, onJoin, onLeft);
 		}
 	}

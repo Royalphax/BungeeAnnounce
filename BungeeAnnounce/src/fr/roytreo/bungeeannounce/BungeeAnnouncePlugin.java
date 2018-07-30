@@ -123,7 +123,7 @@ public class BungeeAnnouncePlugin extends Plugin implements Listener {
 	
 	@EventHandler
 	public void onChat(final net.md_5.bungee.api.event.ChatEvent event) {
-		if (event.getSender().isConnected() && event.getSender() instanceof ProxiedPlayer) {
+		if (!event.isCommand() && event.getSender().isConnected() && event.getSender() instanceof ProxiedPlayer) {
 			final ProxiedPlayer player = (ProxiedPlayer) event.getSender();
 			final List<ChannelManager> channels = ChannelManager.getPlayerChannels(player);
 			if (channels.size() == 1) {

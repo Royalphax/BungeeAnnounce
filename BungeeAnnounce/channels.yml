@@ -1,4 +1,6 @@
 #===============# BungeeAnnounce Channels Configuration file #===============#
+#
+# Enable the channel feature or not.
 enable-channels: true
 channels:
 #
@@ -6,25 +8,25 @@ channels:
 #
 # - Those protected by a permission and whose only players with this permission will be able to send/receive messages from this channel after having joined it.
 #   Example : 
-  'ADMIN CHANNEL':
+  'ADMIN':
     permission: channels.admin.access
     toggle-command: cadmin
-    format: '&4&l%CHANNEL_NAME% &8| &f%PLAYER%: %MESSAGE%'
+    format: '&4&l%CHANNEL_NAME% &8| &f%SENDER_NAME%: %MESSAGE%'
     description: '&7Channel used by admins to communicate with each other.'
-    on-join: '&aYou joined the channel %CHANNEL_NAME%'
-    on-quit: '&cYou left the channel %CHANNEL_NAME%'
+    on-join: '&4&l%CHANNEL_NAME% &8> &a%SENDER_NAME% has joined the channel !'
+    on-quit: '&4&l%CHANNEL_NAME% &8< &c%SENDER_NAME% has left the channel !'
 #
 #and,
 #
 # - Those free of access which any player can join/leave by typing the command you have chosen.
 #   For example :
-  'FACTION CHANNEL':
+  'FACTION':
     permission: ''
     toggle-command: cfaction
-    format: '&5&l%CHANNEL_NAME% &8| &f%PLAYER%: %MESSAGE%'
+    format: '&5&l%CHANNEL_NAME% &8| &f%SENDER_NAME%: %MESSAGE%'
     description: '&7Channel to share your different tips and discuss about the Faction server.'
-    on-join: '&aYou joined the channel %CHANNEL_NAME%'
-    on-quit: '&cYou left the channel %CHANNEL_NAME%'
+    on-join: '&5&l%CHANNEL_NAME% &8> &a%SENDER_NAME% has joined the channel !'
+    on-quit: '&5&l%CHANNEL_NAME% &8< &c%SENDER_NAME% has left the channel !'
 #
 # Tip for pros : If you want to talk in the faction channel (for example), you can either do /cfaction to join the channel, 
 # then type your message in the chat. Or (if you are a pro and want to do the two things with only one interaction). You can type
@@ -32,5 +34,6 @@ channels:
 #
 # Moreover, notice that you can join several channels. But if you do, the only way to talk in a specific channel will be to type
 # the command of this channel and your message like above.
+multi-channels-tip: "&e&l! &7It appears that you have joined several channels. As we can't know in wich one you want to talk, the only way to do so will be to use this syntax : /<channel command> <your message>. &e&l!"
 #
 ##############

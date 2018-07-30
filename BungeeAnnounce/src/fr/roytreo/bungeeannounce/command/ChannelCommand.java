@@ -23,18 +23,14 @@ public class ChannelCommand extends Command {
 		if (sender instanceof ProxiedPlayer) {
 			ProxiedPlayer player = (ProxiedPlayer) sender;
 			if (args.length == 0) {
-				if (this.channel.getPlayers().contains(player)) {
-					this.channel.getPlayers().remove(player);
-					player.sendMessage(new TextComponent(this.channel.getLeftMessage()));
+				if (this.channel.hasPlayer(player)) {
+					this.channel.leftPlayer(player);
 				} else {
-					this.channel.getPlayers().add(player);
-					player.sendMessage(new TextComponent(this.channel.getJoinMessage()));
+					this.channel.joinPlayer(player);
 				}
 			} else {
-				if (!this.channel.getPlayers().contains(player)) {
-					this.channel.getPlayers().add(player);
-					player.sendMessage(new TextComponent(this.channel.getJoinMessage()));
-				}
+				if (!this.channel.hasPlayer(player))
+					this.channel.joinPlayer(player);
 				StringBuilder msgBuilder = new StringBuilder();
 				for (int i = 0; i < args.length; i++)
 					msgBuilder.append(args[i]).append(" ");

@@ -5,7 +5,6 @@ import java.util.List;
 
 import fr.roytreo.bungeeannounce.command.ChannelCommand;
 import fr.roytreo.bungeeannounce.util.BAUtils;
-import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.ProxyServer;
 import net.md_5.bungee.api.chat.TextComponent;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
@@ -13,6 +12,8 @@ import net.md_5.bungee.api.plugin.Plugin;
 
 public class ChannelManager {
 
+	private static List<ProxiedPlayer> tipPlayers = new ArrayList<>();
+	private static String tipMessage = "";
 	private static List<ChannelManager> channels = new ArrayList<>();
 	
 	private String name;
@@ -78,22 +79,39 @@ public class ChannelManager {
 		return translatePlaceholders(this.format);
 	}
 	
-	public List<ProxiedPlayer> getPlayers() {
-		return this.players;
+	public boolean hasPlayer(ProxiedPlayer player) {
+		return this.players.contains(player);
 	}
 	
-	public void sendMessage(ProxiedPlayer sender, String message) {
-		for (ProxiedPlayer player : ProxyServer.getInstance().getPlayers()) {
-			if (player.hasPermission(this.permission) || this.players.contains(player))
-				player.sendMessage(new TextComponent(BAUtils.translatePlaceholders(translatePlaceholders(message), sender, player, player.getServer().getInfo())));
+	public void joinPlayer(ProxiedPlayer player) {
+		players.add(player);
+		for (ProxiedPlayer channelPlayer : ProxyServer.getInstance().getPlayers())
+			if (channelPlayer.hasPermission(this.permission) || this.players.contains(channelPlayer))
+				channelPlayer.sendMessage(new TextComponent(BAUtils.colorizz(BAUtils.translatePlaceholders(getJoinMessage(), player, channelPlayer, channelPlayer.getServer().getInfo()))));
+		player.sendMessage(new TextComponent(BAUtils.colorizz(getDescription())));
+		if (!tipPlayers.contains(player) && getPlayerChannels(player).size() > 1) {
+			tipPlayers.add(player);
+			player.sendMessage(new TextComponent(BAUtils.colorizz(tipMessage)));
 		}
 	}
 	
+	public void leftPlayer(ProxiedPlayer player) {
+		for (ProxiedPlayer channelPlayer : ProxyServer.getInstance().getPlayers())
+			if (channelPlayer.hasPermission(this.permission) || this.players.contains(channelPlayer))
+				channelPlayer.sendMessage(new TextComponent(BAUtils.colorizz(BAUtils.translatePlaceholders(getLeftMessage(), player, channelPlayer, channelPlayer.getServer().getInfo()))));
+		players.remove(player);
+	}
+	
+	public void sendMessage(ProxiedPlayer sender, String message) {
+		final String msg = translatePlaceholders(this.format.replaceAll("%MESSAGE%", message));
+		for (ProxiedPlayer player : ProxyServer.getInstance().getPlayers())
+			if (player.hasPermission(this.permission) || this.players.contains(player))
+				player.sendMessage(new TextComponent(BAUtils.colorizz(BAUtils.translatePlaceholders(msg, sender, player, player.getServer().getInfo()))));
+	}
+	
 	private String translatePlaceholders(String input) {
-		
 		input = input.replaceAll("%CHANNEL_NAME%", this.name);
-		input = ChatColor.translateAlternateColorCodes('&', input);
-		
+		input = input.replaceAll("%CHANNEL_DESCRIPTION%", this.description);
 		return input;
 	}
 	
@@ -104,12 +122,16 @@ public class ChannelManager {
 	public static List<ChannelManager> getPlayerChannels(ProxiedPlayer player) {
 		List<ChannelManager> playerChannels = new ArrayList<>();
 		for (ChannelManager channel : channels)
-			if (channel.getPlayers().contains(player))
+			if (channel.players.contains(player))
 				playerChannels.add(channel);
 		return playerChannels;
 	}
 	
 	public static List<ChannelManager> getChannels() {
 		return channels;
+	}
+	
+	public static void setTipMessage(String message) {
+		tipMessage = message;
 	}
 }
