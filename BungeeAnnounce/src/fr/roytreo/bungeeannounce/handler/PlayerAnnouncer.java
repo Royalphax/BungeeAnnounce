@@ -20,6 +20,7 @@ public class PlayerAnnouncer {
 		playerAnnouncers = new ArrayList<>();
 	}
 	
+	private ConnectionType type;
 	private AnnouncementManager announcement;
 	private String message;
 	private String playerName;
@@ -28,7 +29,8 @@ public class PlayerAnnouncer {
 	private List<ServerInfo> broadcastServers;
 	private Integer[] optionalTitleArgs;
 
-	public PlayerAnnouncer(BungeeAnnouncePlugin plugin, String playerName, AnnouncementManager announcement, String message, List<String> requiredServers, List<String> broadcastServers, String permission, Integer... optionalTitleArgs) {
+	public PlayerAnnouncer(BungeeAnnouncePlugin plugin, ConnectionType type, String playerName, AnnouncementManager announcement, String message, List<String> requiredServers, List<String> broadcastServers, String permission, Integer... optionalTitleArgs) {
+		this.type = type;
 		this.playerName = playerName;
 		this.announcement = announcement;
 		this.message = message;
@@ -62,6 +64,10 @@ public class PlayerAnnouncer {
 		}
 		playerAnnouncers.add(this);
 	}
+	
+	public boolean isConnectionType(ConnectionType type) {
+		return this.type == type;
+	}
 
 	public String getPlayerName() {
 		return this.playerName;
@@ -91,21 +97,26 @@ public class PlayerAnnouncer {
 		return this.optionalTitleArgs;
 	}
 	
-	public static List<PlayerAnnouncer> getAnnouncementList(ProxiedPlayer player, Server connectingServer)
+	public static List<PlayerAnnouncer> getAnnouncementList(ProxiedPlayer player, Server server, ConnectionType connectionType)
 	{
 		List<PlayerAnnouncer> output = new ArrayList<>();
-		if (connectingServer != null && connectingServer.getInfo() != null)
+		if (server != null && server.getInfo() != null)
 			for (PlayerAnnouncer playerAnnouncer : playerAnnouncers)
-				if ((player.getName().equals(playerAnnouncer.getPlayerName())
+				if (((player.getName().equals(playerAnnouncer.getPlayerName())
 						|| player.hasPermission(playerAnnouncer.getPermission())) 
 						&& (playerAnnouncer.getRequiredServers().isEmpty() 
-								|| playerAnnouncer.getRequiredServers().contains(connectingServer.getInfo())))
+								|| playerAnnouncer.getRequiredServers().contains(server.getInfo()))) && playerAnnouncer.isConnectionType(connectionType))
 					output.add(playerAnnouncer);
 		return output;
 	}
 	
-	public static boolean hasAnnouncement(ProxiedPlayer player, Server connectingServer)
+	public static boolean hasAnnouncement(ProxiedPlayer player, Server server, ConnectionType type)
 	{
-		return !getAnnouncementList(player, connectingServer).isEmpty();
+		return !getAnnouncementList(player, server, type).isEmpty();
+	}
+	
+	public static enum ConnectionType {
+		CONNECT_SERVER(),
+		LEAVE_PROXY();
 	}
 }

@@ -66,15 +66,15 @@ scheduler:
       - 'all'
 #
 #======================# Player announcer settings #=====================#
-#You can broadcast a message when somebody important logged in.
+#You can broadcast a message when somebody important logged in or disconnect from your network.
 #To do so, you need to follow this patern:
 #  'PlayerName':
 #    permission: 'your.permission' (optional, if you want to do the same announcement for every player with permission 'your.permission')
 #    type: (announce/title/subtitle/action/warn)
 #    message: 'Message to display'
 #    required-servers:
-#      - 'server name on which the player should connect to send the announcement'
-#      put « - 'all' » if you want to send the announcement when the player connects on any server of your bungeecord network.
+#      - 'server name on/from which the player should connect/disconnect to send the announcement'
+#      put « - 'all' » if you want to send the announcement when the player connects/disconnects on/from any server of your bungeecord network.
 #    broadcast-servers: 
 #      - 'server name on which the message will be displayed'
 #      put « - 'all' » if you want to display the message on all servers.
@@ -88,7 +88,8 @@ scheduler:
 #players with that permission and Droleur will have the following action message on join.
 #
 #You can delete/edit/copy&paste them.
-player-announcer:
+#Player announcer on join section :
+player-join-announcer:
   'Roytreo28':
     type: subtitle
     message: '&cThe developer is back ! <3'
@@ -100,6 +101,24 @@ player-announcer:
     permission: bungeecord.vip
     type: action
     message: '&a%PLAYER_NAME% &ejoined the game on lobby &a%SERVER_NAME%&e!'
+    required-servers:
+      - 'Lobby-1'
+      - 'Lobby-2'
+    broadcast-servers:
+      - 'all'
+#Player announcer on quit section :
+player-quit-announcer:
+  'Roytreo28':
+    type: announce
+    message: '&cThe developer has left for mysterious reasons ...'
+    required-servers:
+      - 'Hub-1'
+    broadcast-servers:
+      - 'Hub-1'
+  'KingRider26':
+    permission: bungeecord.vip
+    type: action
+    message: '&a%PLAYER_NAME% &eleft the game on lobby &a%SERVER_NAME%&e!'
     required-servers:
       - 'Lobby-1'
       - 'Lobby-2'

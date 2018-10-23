@@ -11,6 +11,7 @@ import java.util.logging.Logger;
 
 import fr.roytreo.bungeeannounce.BungeeAnnouncePlugin;
 import fr.roytreo.bungeeannounce.handler.PlayerAnnouncer;
+import fr.roytreo.bungeeannounce.handler.PlayerAnnouncer.ConnectionType;
 import fr.roytreo.bungeeannounce.task.ScheduledAnnouncement;
 import fr.roytreo.bungeeannounce.util.BAUtils;
 import net.md_5.bungee.api.ChatColor;
@@ -124,9 +125,46 @@ public class ConfigManager {
 	
 	public List<PlayerAnnouncer> loadAutoPlayerAnnouncement() {
 		List<PlayerAnnouncer> output = new ArrayList<>();
+		// JOIN ANNOUNCEMENTS
 		int i = 0;
 		
-		Configuration playerAnnouncerSection = this.config.getSection("player-announcer");
+		for (PlayerAnnouncer announcer : loadAutoPlayerAnnouncementSection("player-join-announcer", ConnectionType.CONNECT_SERVER)) {
+			output.add(announcer);
+			i++;
+		}
+		
+		if (i == 0) {
+			getLogger().log(Level.INFO, "The latest version changed the \"player-announcer\" config section name into \"player-join-announcer\" because a new section named \"player-left-announcer\" which allows you to create announcements when players left your network was added.");
+			getLogger().log(Level.INFO, "So, it appears that you haven't updated the section name. The plugin will not do it for you but we will still exceptionally load the \"player-announcer\" section until you create the \"player-join-announcer\" section.");
+			for (PlayerAnnouncer announcer : loadAutoPlayerAnnouncementSection("player-announcer", ConnectionType.CONNECT_SERVER)) {
+				output.add(announcer);
+				i++;
+			}
+		}
+		
+		if (i > 0) {
+			getLogger().log(Level.INFO, Integer.toString(i) + " automatic player join announcement" + (i > 1 ? "s" : "") + " " + (i > 1 ? "were" : "was") + " correctly loaded.");
+		}
+		
+		// LEFT ANNOUNCEMENTS
+		i = 0;
+		
+		for (PlayerAnnouncer announcer : loadAutoPlayerAnnouncementSection("player-left-announcer", ConnectionType.LEAVE_PROXY)) {
+			output.add(announcer);
+			i++;
+		}
+
+		if (i > 0) {
+			getLogger().log(Level.INFO, Integer.toString(i) + " automatic player left announcement" + (i > 1 ? "s" : "") + " " + (i > 1 ? "were" : "was") + " correctly loaded.");
+		}
+		
+		return output;
+	}
+	
+	public List<PlayerAnnouncer> loadAutoPlayerAnnouncementSection(String section, ConnectionType announceType) {
+		List<PlayerAnnouncer> output = new ArrayList<>();
+		
+		final Configuration playerAnnouncerSection = this.config.getSection(section);
 		for (String playerName : playerAnnouncerSection.getKeys()) {
 			try {
 				String type = playerAnnouncerSection.getString(playerName + ".type", "");
@@ -143,22 +181,18 @@ public class ConfigManager {
 				List<String> servers = playerAnnouncerSection.getStringList(playerName + ".servers");
 				if (requiredServers.isEmpty() && broadcastServers.isEmpty() && !servers.isEmpty()) {
 					getLogger().info("Be aware that you're using the old configuration method for the player annoncer section. The parameter 'servers' has been replaced by 'broadcast-servers' and a new parameter 'required-servers' was added. To learn more, save your actual config.yml somewhere and let the plugin generates a new one, then read the instructions in it.");
-					broadcastServers=servers;
+					broadcastServers = servers;
 					requiredServers.add("all");
 				}
 				String permission = playerAnnouncerSection.getString(playerName + ".permission", "");
 				Integer[] optionalTitleArgs = BAUtils.getOptionalTitleArgsFromConfig(announcement, type);
 				
-				output.add(new PlayerAnnouncer(this.plugin, playerName, announcement, message, requiredServers, broadcastServers, permission, optionalTitleArgs));
-				
-				i++;
+				output.add(new PlayerAnnouncer(this.plugin, announceType, playerName, announcement, message, requiredServers, broadcastServers, permission, optionalTitleArgs));
 			} catch (Exception ex) {
 				getLogger().warning("Error when loading automatic player announcement \"" + playerName + "\" in config.yml");
 				new ExceptionManager(ex).register(this.plugin, true);
 			}
 		}
-		if (i > 0)
-			getLogger().log(Level.INFO, Integer.toString(i) + " automatic player announcement" + (i > 1 ? "s" : "") + " " + (i > 1 ? "were" : "was") + " correctly loaded.");
 		return output;
 	}
 	

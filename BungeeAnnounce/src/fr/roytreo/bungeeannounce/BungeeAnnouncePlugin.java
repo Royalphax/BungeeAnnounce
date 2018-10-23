@@ -10,6 +10,7 @@ import fr.roytreo.bungeeannounce.command.ForceBroadcastCommand;
 import fr.roytreo.bungeeannounce.command.MsgCommand;
 import fr.roytreo.bungeeannounce.handler.Logger;
 import fr.roytreo.bungeeannounce.handler.PlayerAnnouncer;
+import fr.roytreo.bungeeannounce.handler.PlayerAnnouncer.ConnectionType;
 import fr.roytreo.bungeeannounce.manager.AnnouncementManager;
 import fr.roytreo.bungeeannounce.manager.ChannelManager;
 import fr.roytreo.bungeeannounce.manager.ConfigManager;
@@ -110,7 +111,7 @@ public class BungeeAnnouncePlugin extends Plugin implements Listener {
 	@EventHandler
 	public void onConnect(final net.md_5.bungee.api.event.ServerConnectedEvent event) {
 		final ProxiedPlayer player = event.getPlayer();
-		List<PlayerAnnouncer> autoPlayerAnnouncements = PlayerAnnouncer.getAnnouncementList(player, event.getServer());
+		List<PlayerAnnouncer> autoPlayerAnnouncements = PlayerAnnouncer.getAnnouncementList(player, event.getServer(), ConnectionType.CONNECT_SERVER);
 		if (!autoPlayerAnnouncements.isEmpty()) {
 			for (PlayerAnnouncer playerAnnouncer : autoPlayerAnnouncements)
 				getProxy().getScheduler().schedule(this, new Runnable() {
@@ -131,6 +132,20 @@ public class BungeeAnnouncePlugin extends Plugin implements Listener {
 				channel.sendMessage(player, event.getMessage());
 				event.setCancelled(true);
 			}
+		}
+	}
+	
+	@EventHandler
+	public void onDisconnect(final net.md_5.bungee.api.event.PlayerDisconnectEvent event) {
+		final ProxiedPlayer player = event.getPlayer();
+		List<PlayerAnnouncer> autoPlayerAnnouncements = PlayerAnnouncer.getAnnouncementList(player, event.getPlayer().getServer(), ConnectionType.LEAVE_PROXY);
+		if (!autoPlayerAnnouncements.isEmpty()) {
+			for (PlayerAnnouncer playerAnnouncer : autoPlayerAnnouncements)
+				getProxy().getScheduler().schedule(this, new Runnable() {
+					public void run() {
+						AnnouncementManager.sendToServer(playerAnnouncer.getAnnouncement(), getProxy().getConsole(), playerAnnouncer.getMessage(), playerAnnouncer.getBroadcastServers(), false, "", playerAnnouncer.getOptionalTitleArgs());
+					}
+				}, 500, TimeUnit.MILLISECONDS);
 		}
 	}
 	
