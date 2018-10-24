@@ -89,22 +89,38 @@ public enum AnnouncementManager {
 	 * @param optionalTitleArgs Optional title arguments. Put three integers and they will be used for fadeIn, stay and fadeOut values.
 	 */
 	public static void sendToServer(AnnouncementManager announcement, CommandSender sender, String message, List<ServerInfo> servers, boolean prefix, String permission, Integer... optionalTitleArgs) {
+		sendToServer(announcement, sender, null, message, servers, prefix, permission, optionalTitleArgs);
+	}
+	
+	/**
+	 * Send any type of anouncement to a server with a lot of possibilities by specifying all of each following parameters. 
+	 *
+	 * @author Roytreo28
+	 * @param announcement The announce type (title/subtitle/warn/announce/action).
+	 * @param sender The sender who's supposed to had sent this announcement. Put <b>null</b> if ignored.
+	 * @param player The player involved by the message (put null to ignore). 
+	 * @param message Message of the announcement.
+	 * @param servers Servers on which the announcement will be displayed. Put <b>null</b> if you want to display the announcement on all your bungee servers.
+	 * @param prefix Does the announcement use pre defined prefix in config.yml.
+	 * @param permission Permission which is required to see this announcement. Put an empty string if ignored.
+	 * @param optionalTitleArgs Optional title arguments. Put three integers and they will be used for fadeIn, stay and fadeOut values.
+	 */
+	public static void sendToServer(AnnouncementManager announcement, CommandSender sender, ProxiedPlayer player, String message, List<ServerInfo> servers, boolean prefix, String permission, Integer... optionalTitleArgs) {
 		permission = permission.trim();
 		if (servers == null || servers.isEmpty()) {
-			for (ProxiedPlayer player : BungeeAnnouncePlugin.getProxyServer().getPlayers()) {
-				if ((!permission.equals("") && !player.hasPermission(permission)) || player.getServer() == null || player.getServer().getInfo() == null) 
+			for (ProxiedPlayer receiver : BungeeAnnouncePlugin.getProxyServer().getPlayers()) {
+				if ((!permission.equals("") && !receiver.hasPermission(permission)) || receiver.getServer() == null || receiver.getServer().getInfo() == null) 
 					continue;
-				ServerInfo server = player.getServer().getInfo();
-				message = BAUtils.translatePlaceholders(message, sender, player, server);
-				announcement.send(player, BAUtils.parse((prefix ? announcement.getFieldPrefix().getString() : "") + message), optionalTitleArgs);
+				message = BAUtils.translatePlaceholders(message, sender, receiver, player);
+				announcement.send(receiver, BAUtils.parse((prefix ? announcement.getFieldPrefix().getString() : "") + message), optionalTitleArgs);
 			}
 		} else {
 			for (ServerInfo server : servers) {
-				for (ProxiedPlayer player : server.getPlayers()) {
-					if (!permission.equals("") && !player.hasPermission(permission)) 
+				for (ProxiedPlayer receiver : server.getPlayers()) {
+					if (!permission.equals("") && !receiver.hasPermission(permission)) 
 						continue;
-					message = BAUtils.translatePlaceholders(message, sender, player, server);
-					announcement.send(player, BAUtils.parse((prefix ? announcement.getFieldPrefix().getString() : "") + message), optionalTitleArgs);
+					message = BAUtils.translatePlaceholders(message, sender, receiver, player);
+					announcement.send(receiver, BAUtils.parse((prefix ? announcement.getFieldPrefix().getString() : "") + message), optionalTitleArgs);
 				}
 			}
 		}
@@ -124,7 +140,7 @@ public enum AnnouncementManager {
 	 */
 	public static void sendToPlayer(AnnouncementManager announcement, CommandSender sender, ProxiedPlayer pplayer, String message, boolean prefix, Integer... optionalTitleArgs) {
 		if (pplayer.isConnected() && pplayer.getServer() != null && pplayer.getServer().getInfo() != null) {
-			message = BAUtils.translatePlaceholders(message, sender, pplayer, pplayer.getServer().getInfo());
+			message = BAUtils.translatePlaceholders(message, sender, pplayer, null);
 			announcement.send(pplayer, BAUtils.parse((prefix ? ConfigManager.Field.ANNOUNCE_PREFIX.getString() : "") + message), optionalTitleArgs);
 		}
 	}
@@ -143,7 +159,7 @@ public enum AnnouncementManager {
 	public static void sendToPlayer(AnnouncementManager announcement, CommandSender sender, String player, String message, boolean prefix, Integer... optionalTitleArgs) {
 		ProxiedPlayer pplayer = BungeeAnnouncePlugin.getProxyServer().getPlayer(player);
 		if (pplayer.isConnected() && pplayer.getServer() != null && pplayer.getServer().getInfo() != null) {
-			message = BAUtils.translatePlaceholders(message, sender, pplayer, pplayer.getServer().getInfo());
+			message = BAUtils.translatePlaceholders(message, sender, pplayer, null);
 			announcement.send(pplayer, BAUtils.parse((prefix ? ConfigManager.Field.ANNOUNCE_PREFIX.getString() : "") + message), optionalTitleArgs);
 		}
 	}
