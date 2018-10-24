@@ -134,8 +134,8 @@ public class ConfigManager {
 		}
 		
 		if (i == 0) {
-			getLogger().log(Level.INFO, "The latest version changed the \"player-announcer\" config section name into \"player-join-announcer\" because a new section named \"player-left-announcer\" which allows you to create announcements when players left your network was added.");
-			getLogger().log(Level.INFO, "So, it appears that you haven't updated the section name. The plugin will not do it for you but we will still exceptionally load the \"player-announcer\" section until you create the \"player-join-announcer\" section.");
+			getLogger().log(Level.INFO, "The latest version changed the \"player-announcer\" config section name into \"player-join-announcer\" because a new section named \"player-quit-announcer\" which allows you to create announcements when players quit your network was added.");
+			getLogger().log(Level.INFO, "So, it appears that you haven't updated the section name. The plugin will not do it for you but we will still exceptionally load the \"player-announcer\" section until you rename it \"player-join-announcer\".");
 			for (PlayerAnnouncer announcer : loadAutoPlayerAnnouncementSection("player-announcer", ConnectionType.CONNECT_SERVER)) {
 				output.add(announcer);
 				i++;
@@ -149,7 +149,7 @@ public class ConfigManager {
 		// LEFT ANNOUNCEMENTS
 		i = 0;
 		
-		for (PlayerAnnouncer announcer : loadAutoPlayerAnnouncementSection("player-left-announcer", ConnectionType.LEAVE_PROXY)) {
+		for (PlayerAnnouncer announcer : loadAutoPlayerAnnouncementSection("player-quit-announcer", ConnectionType.LEAVE_PROXY)) {
 			output.add(announcer);
 			i++;
 		}

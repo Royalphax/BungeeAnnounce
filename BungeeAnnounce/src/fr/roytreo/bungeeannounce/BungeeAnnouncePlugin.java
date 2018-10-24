@@ -116,7 +116,7 @@ public class BungeeAnnouncePlugin extends Plugin implements Listener {
 			for (PlayerAnnouncer playerAnnouncer : autoPlayerAnnouncements)
 				getProxy().getScheduler().schedule(this, new Runnable() {
 					public void run() {
-						AnnouncementManager.sendToServer(playerAnnouncer.getAnnouncement(), getProxy().getConsole(), playerAnnouncer.getMessage(), playerAnnouncer.getBroadcastServers(), false, "", playerAnnouncer.getOptionalTitleArgs());
+						AnnouncementManager.sendToServer(playerAnnouncer.getAnnouncement(), getProxy().getConsole(), player, playerAnnouncer.getMessage(), playerAnnouncer.getBroadcastServers(), false, "", playerAnnouncer.getOptionalTitleArgs());
 					}
 				}, 500, TimeUnit.MILLISECONDS);
 		}
@@ -143,7 +143,7 @@ public class BungeeAnnouncePlugin extends Plugin implements Listener {
 			for (PlayerAnnouncer playerAnnouncer : autoPlayerAnnouncements)
 				getProxy().getScheduler().schedule(this, new Runnable() {
 					public void run() {
-						AnnouncementManager.sendToServer(playerAnnouncer.getAnnouncement(), getProxy().getConsole(), playerAnnouncer.getMessage(), playerAnnouncer.getBroadcastServers(), false, "", playerAnnouncer.getOptionalTitleArgs());
+						AnnouncementManager.sendToServer(playerAnnouncer.getAnnouncement(), getProxy().getConsole(), player, playerAnnouncer.getMessage(), playerAnnouncer.getBroadcastServers(), false, "", playerAnnouncer.getOptionalTitleArgs());
 					}
 				}, 500, TimeUnit.MILLISECONDS);
 		}

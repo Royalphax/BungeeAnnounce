@@ -100,7 +100,7 @@ player-join-announcer:
   'KingRider26':
     permission: bungeecord.vip
     type: action
-    message: '&a%PLAYER_NAME% &ejoined the game on lobby &a%SERVER_NAME%&e!'
+    message: '&a%PLAYER_NAME% &ejoined the game on lobby &a%PLAYER_SERVER_NAME%&e!'
     required-servers:
       - 'Lobby-1'
       - 'Lobby-2'
@@ -118,7 +118,7 @@ player-quit-announcer:
   'KingRider26':
     permission: bungeecord.vip
     type: action
-    message: '&a%PLAYER_NAME% &eleft the game on lobby &a%SERVER_NAME%&e!'
+    message: '&a%PLAYER_NAME% &eleft the game on lobby &a%PLAYER_SERVER_NAME%&e!'
     required-servers:
       - 'Lobby-1'
       - 'Lobby-2'
