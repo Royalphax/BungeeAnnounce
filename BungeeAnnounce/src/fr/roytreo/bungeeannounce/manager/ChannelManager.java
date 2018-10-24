@@ -85,9 +85,9 @@ public class ChannelManager {
 	
 	public void joinPlayer(ProxiedPlayer player) {
 		players.add(player);
-		for (ProxiedPlayer channelPlayer : ProxyServer.getInstance().getPlayers())
-			if (channelPlayer.hasPermission(this.permission) || this.players.contains(channelPlayer))
-				channelPlayer.sendMessage(new TextComponent(BAUtils.colorizz(BAUtils.translatePlaceholders(getJoinMessage(), player, channelPlayer, channelPlayer.getServer().getInfo()))));
+		for (ProxiedPlayer channelReceiver : ProxyServer.getInstance().getPlayers())
+			if (channelReceiver.hasPermission(this.permission) || this.players.contains(channelReceiver))
+				channelReceiver.sendMessage(new TextComponent(BAUtils.colorizz(BAUtils.translatePlaceholders(getJoinMessage(), player, channelReceiver, null))));
 		player.sendMessage(new TextComponent(BAUtils.colorizz(getDescription())));
 		if (!tipPlayers.contains(player) && getPlayerChannels(player).size() > 1) {
 			tipPlayers.add(player);
@@ -96,17 +96,17 @@ public class ChannelManager {
 	}
 	
 	public void leftPlayer(ProxiedPlayer player) {
-		for (ProxiedPlayer channelPlayer : ProxyServer.getInstance().getPlayers())
-			if (channelPlayer.hasPermission(this.permission) || this.players.contains(channelPlayer))
-				channelPlayer.sendMessage(new TextComponent(BAUtils.colorizz(BAUtils.translatePlaceholders(getLeftMessage(), player, channelPlayer, channelPlayer.getServer().getInfo()))));
+		for (ProxiedPlayer channelReceiver : ProxyServer.getInstance().getPlayers())
+			if (channelReceiver.hasPermission(this.permission) || this.players.contains(channelReceiver))
+				channelReceiver.sendMessage(new TextComponent(BAUtils.colorizz(BAUtils.translatePlaceholders(getLeftMessage(), player, channelReceiver, null))));
 		players.remove(player);
 	}
 	
 	public void sendMessage(ProxiedPlayer sender, String message) {
 		final String msg = translatePlaceholders(this.format.replaceAll("%MESSAGE%", message));
-		for (ProxiedPlayer player : ProxyServer.getInstance().getPlayers())
-			if (player.hasPermission(this.permission) || this.players.contains(player))
-				player.sendMessage(new TextComponent(BAUtils.colorizz(BAUtils.translatePlaceholders(msg, sender, player, player.getServer().getInfo()))));
+		for (ProxiedPlayer receiver : ProxyServer.getInstance().getPlayers())
+			if (receiver.hasPermission(this.permission) || this.players.contains(receiver))
+				receiver.sendMessage(new TextComponent(BAUtils.colorizz(BAUtils.translatePlaceholders(msg, sender, receiver, null))));
 	}
 	
 	private String translatePlaceholders(String input) {

@@ -19,7 +19,7 @@ public class SubtitleAction implements AnnounceAction {
 			}
 		}
 		title.title(new TextComponent(""));
-		title.subTitle(new TextComponent(message));
+		title.subTitle(message);
 		title.send(player);
 	}
 
