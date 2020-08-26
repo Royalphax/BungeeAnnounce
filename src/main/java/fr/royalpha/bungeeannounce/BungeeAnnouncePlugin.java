@@ -77,6 +77,8 @@ public class BungeeAnnouncePlugin extends Plugin implements Listener {
 				if (!URLManager.checkVersion(getDescription().getVersion(), false, URLManager.Link.GITHUB_PATH)) {
 					getLogger().info("A new version more efficient of the plugin is available. It will be automatically updated when the server will switch off.");
 					update = true;
+				} else {
+					getLogger().info("Plugin is up-to-date.");
 				}
 			}
 		});
@@ -92,7 +94,7 @@ public class BungeeAnnouncePlugin extends Plugin implements Listener {
 	@Override
 	public void onDisable() {
 		if (this.update) {
-			getLogger().info("Stay informed about what the update bring new at https://www.spigotmc.org/resources/bungee-announce-1-8-1-9-1-10.10002/updates");
+			getLogger().info("Stay informed about what the update bring new at https://www.spigotmc.org/resources/10002/updates");
 			URLManager.update(this, URLManager.getLatestVersion(), false, URLManager.Link.GITHUB_PATH);
 		}
 	}
@@ -110,10 +112,15 @@ public class BungeeAnnouncePlugin extends Plugin implements Listener {
 		if (ConfigManager.Field.ENABLE_PRIVATE_MESSAGING.getBoolean())
 			getProxy().getPluginManager().registerCommand(this, new MsgCommand(this, ConfigManager.Field.COMMAND_FOR_PRIVATE_MESSAGING.getString()));
 	}
-	
+
+	private List<ProxiedPlayer> onlinePlayers = new ArrayList<>();
+
 	@EventHandler
 	public void onConnect(final net.md_5.bungee.api.event.ServerConnectedEvent event) {
 		final ProxiedPlayer player = event.getPlayer();
+		if (onlinePlayers.contains(player))
+			return;
+		onlinePlayers.add(player);
 		List<PlayerAnnouncer> autoPlayerAnnouncements = PlayerAnnouncer.getAnnouncementList(player, event.getServer(), ConnectionType.CONNECT_SERVER);
 		if (!autoPlayerAnnouncements.isEmpty()) {
 			for (PlayerAnnouncer playerAnnouncer : autoPlayerAnnouncements)
@@ -141,6 +148,8 @@ public class BungeeAnnouncePlugin extends Plugin implements Listener {
 	@EventHandler
 	public void onDisconnect(final net.md_5.bungee.api.event.PlayerDisconnectEvent event) {
 		final ProxiedPlayer player = event.getPlayer();
+		if (onlinePlayers.contains(player))
+			onlinePlayers.remove(player);
 		List<PlayerAnnouncer> autoPlayerAnnouncements = PlayerAnnouncer.getAnnouncementList(player, event.getPlayer().getServer(), ConnectionType.LEAVE_PROXY);
 		if (!autoPlayerAnnouncements.isEmpty()) {
 			for (PlayerAnnouncer playerAnnouncer : autoPlayerAnnouncements)
