@@ -1,7 +1,7 @@
-main: fr.roytreo.bungeeannounce.BungeeAnnouncePlugin
+main: fr.royalpha.bungeeannounce.BungeeAnnouncePlugin
 name: BungeeAnnounce
-version: 7.0
-author: Asynchronous
+version: 7.2
+author: Royalpha
 commands:
   forcebroadcast:
     description: Force broadcast of an announcement
