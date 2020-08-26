@@ -9,7 +9,7 @@ import net.md_5.bungee.api.plugin.Command;
  */
 public class ColorcodeCommand extends Command {
 	public ColorcodeCommand() {
-		super("colorcode", "", "bungee:colorcode");
+		super("colorcode", "", "colorcodes", "bungee:colorcode", "bungee:colorcodes");
 	}
 
 	public void execute(CommandSender sender, String[] args) {
