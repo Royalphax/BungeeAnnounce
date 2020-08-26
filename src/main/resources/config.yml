@@ -1,0 +1,126 @@
+#===============# BungeeAnnounce Configuration file #===============#
+#
+#Prefixes for all types of announcement (color codes supported!)
+announce-prefix: ''
+title-prefix: ''
+subtitle-prefix: ''
+action-prefix: ''
+warn-prefix: '&f[&4&lWARN&f] &b'
+#
+#=====================# Private messaging settings #=====================#
+#If true, players will be able to do /msg <player> <message> on all servers
+enable-private-message: true
+#Which command players will have to use to communicate between servers (default is set to /msg)
+command-for-private-message: msg
+#Private messages:
+private-message-send: '&3Send to &e%RECEIVER%: &d%MESSAGE%'
+private-message-received: '&3Received from &e%SENDER%: &d%MESSAGE%'
+private-message-player-not-online: '&c%PLAYER% is unreachable :('
+private-message-sender-equals-receiver: '&7Are you schizophrenic ? :O'
+reply-info: '&7Use &a/reply &7to respond to &b%SENDER%'
+#
+#===========================# Logs settings #============================#
+#Register each announcement sended by your staff team in a log (located at BungeeAnnounce/logs)
+enable-announcement-logs: false
+#
+#====================# Scheduler announce settings #=====================#
+#To create scheduled messages, you must follow this pattern:
+# 'name(it can be whatever you want)':
+#   permission: 'your.permission' (optional, if you want that only players with that permission are able to see this announcement)
+#   interval: 10 (interval between each message in seconds. If negative, announcement will be frozen and can be triggered only by using command /fbc <announcement name>)
+#   delay: 0 (time to wait after the plugin is loaded to begin the scheduled task in seconds)
+#   message: 'message to display'
+#   type: (announce/title/subtitle/action/warn)
+#   servers: 
+#     - 'server name on which the message will be displayed'
+#	  put « - 'all' » if you want to display the message on all servers.
+#
+#Note: Use '[ln]' to go to the next line.
+#A lot of placeholders are available to be used:
+#You can get them at https://github.com/Royalphax/BungeeAnnounce/wiki/Placeholders
+# 
+#You can see 3 examples below ('action1', 'announce1' and 'vip1')
+#You can delete/edit/copy&paste them.
+scheduler:
+  'action1':
+    interval: 30
+    delay: 0
+    message: "&aDon't forget to review BungeeAnnounce &c\u2764"
+    type: action
+    servers:
+      - 'all'
+  'announce1':
+    interval: 30
+    delay: 10
+    message: '&aClick &bhere::run_command::/say_hello &ato say hello !'
+    type: announce
+    servers:
+      - 'all'
+  'vip1':
+    permission: 'bungeecord.vip'
+    interval: 30
+    delay: 20
+    message: "&eOnly players with 'bungeecord.vip' permission will see this"
+    type: subtitle
+    servers: 
+      - 'all'
+#
+#======================# Player announcer settings #=====================#
+#You can broadcast a message when somebody important logged in or disconnect from your network.
+#To do so, you need to follow this patern:
+#  'PlayerName':
+#    permission: 'your.permission' (optional, if you want to do the same announcement for every player with permission 'your.permission')
+#    type: (announce/title/subtitle/action/warn)
+#    message: 'Message to display'
+#    required-servers:
+#      - 'server name on/from which the player should connect/disconnect to send the announcement'
+#      put « - 'all' » if you want to send the announcement when the player connects/disconnects on/from any server of your bungeecord network.
+#    broadcast-servers: 
+#      - 'server name on which the message will be displayed'
+#      put « - 'all' » if you want to display the message on all servers.
+#
+#Note: Use '[ln]' to go to the next line (works only for announce/warn).
+#A lot of placeholders are available to be used:
+#You can get them at https://github.com/Roytreo28/BungeeAnnounce/wiki/Placeholders
+#
+#You can see 2 examples below (Player Roytreo28 and Droleur)
+#In the Droleur's example, the field 'permission' says that all 
+#players with that permission and Droleur will have the following action message on join.
+#
+#You can delete/edit/copy&paste them.
+#Player announcer on join section :
+player-join-announcer:
+  'Royalpha':
+    type: subtitle
+    message: '&cThe developer is back ! <3'
+    required-servers:
+      - 'Hub-1'
+    broadcast-servers:
+      - 'Hub-1'
+  'IsiZ_':
+    permission: bungeecord.vip
+    type: action
+    message: '&a%PLAYER_NAME% &ejoined the game on lobby &a%PLAYER_SERVER_NAME%&e!'
+    required-servers:
+      - 'Lobby-1'
+      - 'Lobby-2'
+    broadcast-servers:
+      - 'all'
+#Player announcer on quit section :
+player-quit-announcer:
+  'Royalpha':
+    type: announce
+    message: '&cThe developer has left for mysterious reasons ...'
+    required-servers:
+      - 'Hub-1'
+    broadcast-servers:
+      - 'Hub-1'
+  'IsiZ_':
+    permission: bungeecord.vip
+    type: action
+    message: '&a%PLAYER_NAME% &eleft the game on lobby &a%PLAYER_SERVER_NAME%&e!'
+    required-servers:
+      - 'Lobby-1'
+      - 'Lobby-2'
+    broadcast-servers:
+      - 'all'
