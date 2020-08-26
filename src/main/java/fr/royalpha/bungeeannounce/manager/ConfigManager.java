@@ -34,7 +34,7 @@ public class ConfigManager {
 			plugin.getDataFolder().mkdirs();
 		File file = new File(plugin.getDataFolder(), "config.yml");
 		if (!file.exists()) {
-			getLogger().info("Thanks for using BungeeAnnounce from Asynchronous. Don't forget to review it !");
+			getLogger().info("Thanks for using BungeeAnnounce by Royalpha. Don't forget to review it !");
 			getLogger().info("We are a team of developers and we would really appreciate if you could follow our twitter page where we post news about our plugins <3 https://twitter.com/AsyncDevTeam");
 			getLogger().info("Generating configuration file ...");
 			try (InputStream in = plugin.getResourceAsStream("config.yml")) {
