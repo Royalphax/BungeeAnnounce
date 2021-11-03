@@ -62,7 +62,7 @@ scheduler:
     delay: 20
     message: "&eOnly players with 'bungeecord.vip' permission will see this"
     type: subtitle
-    servers: 
+    servers:
       - 'all'
 #
 #======================# Player announcer settings #=====================#
